@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "description": "AI-assisted portfolio builder tool. Includes the B2 extraction / schema-validator / provider-abstraction / B1-prompt / eval-harness pipeline (src/), and — as of Phase 1 wizard build, 2026-09-06 — the beginning of the wizard UI itself (app/), a Next.js app layered into this same repo per the resolved 'all-in' architecture decision (A2/OQ-4).",
-  "type": "commonjs",
   "scripts": {
     "test:golden": "tsx test/run-golden-set.ts",
     "test:adversarial": "tsx test/run-adversarial-suite.ts",
