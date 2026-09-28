@@ -1,0 +1,502 @@
+{
+  "timestamp": "2026-08-29T00:51:14.243Z",
+  "model": "claude-haiku-4-5-20251001",
+  "caseCount": 37,
+  "outcomes": [
+    {
+      "id": "devon-work",
+      "persona": "devon",
+      "sectionKey": "work",
+      "sectionType": "cardGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1904
+    },
+    {
+      "id": "devon-how-i-work",
+      "persona": "devon",
+      "sectionKey": "how-i-work",
+      "sectionType": "processSteps",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3327
+    },
+    {
+      "id": "devon-perspectives",
+      "persona": "devon",
+      "sectionKey": "perspectives",
+      "sectionType": "topicGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3339
+    },
+    {
+      "id": "devon-skills",
+      "persona": "devon",
+      "sectionKey": "skills",
+      "sectionType": "chipGroups",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1590
+    },
+    {
+      "id": "devon-about",
+      "persona": "devon",
+      "sectionKey": "about",
+      "sectionType": "textAndTimeline",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2561
+    },
+    {
+      "id": "naomi-work",
+      "persona": "naomi",
+      "sectionKey": "work",
+      "sectionType": "cardGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2426
+    },
+    {
+      "id": "naomi-how-i-work",
+      "persona": "naomi",
+      "sectionKey": "how-i-work",
+      "sectionType": "processSteps",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3588
+    },
+    {
+      "id": "naomi-perspectives",
+      "persona": "naomi",
+      "sectionKey": "perspectives",
+      "sectionType": "topicGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3554
+    },
+    {
+      "id": "naomi-skills",
+      "persona": "naomi",
+      "sectionKey": "skills",
+      "sectionType": "chipGroups",
+      "expectedStatus": "ok",
+      "actualStatus": "insufficient_evidence",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1867
+    },
+    {
+      "id": "naomi-about",
+      "persona": "naomi",
+      "sectionKey": "about",
+      "sectionType": "textAndTimeline",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1949
+    },
+    {
+      "id": "marisol-work",
+      "persona": "marisol",
+      "sectionKey": "work",
+      "sectionType": "cardGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2271
+    },
+    {
+      "id": "marisol-how-i-work",
+      "persona": "marisol",
+      "sectionKey": "how-i-work",
+      "sectionType": "processSteps",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3817
+    },
+    {
+      "id": "marisol-perspectives",
+      "persona": "marisol",
+      "sectionKey": "perspectives",
+      "sectionType": "topicGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 4199
+    },
+    {
+      "id": "marisol-skills",
+      "persona": "marisol",
+      "sectionKey": "skills",
+      "sectionType": "chipGroups",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1651
+    },
+    {
+      "id": "marisol-about",
+      "persona": "marisol",
+      "sectionKey": "about",
+      "sectionType": "textAndTimeline",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2557
+    },
+    {
+      "id": "farhan-work",
+      "persona": "farhan",
+      "sectionKey": "work",
+      "sectionType": "cardGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2925
+    },
+    {
+      "id": "farhan-how-i-work",
+      "persona": "farhan",
+      "sectionKey": "how-i-work",
+      "sectionType": "processSteps",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3946
+    },
+    {
+      "id": "farhan-perspectives",
+      "persona": "farhan",
+      "sectionKey": "perspectives",
+      "sectionType": "topicGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3950
+    },
+    {
+      "id": "farhan-skills",
+      "persona": "farhan",
+      "sectionKey": "skills",
+      "sectionType": "chipGroups",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1870
+    },
+    {
+      "id": "farhan-about",
+      "persona": "farhan",
+      "sectionKey": "about",
+      "sectionType": "textAndTimeline",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1922
+    },
+    {
+      "id": "katherine-work",
+      "persona": "katherine",
+      "sectionKey": "work",
+      "sectionType": "cardGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3058
+    },
+    {
+      "id": "katherine-how-i-work",
+      "persona": "katherine",
+      "sectionKey": "how-i-work",
+      "sectionType": "processSteps",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 4546
+    },
+    {
+      "id": "katherine-perspectives",
+      "persona": "katherine",
+      "sectionKey": "perspectives",
+      "sectionType": "topicGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3844
+    },
+    {
+      "id": "katherine-skills",
+      "persona": "katherine",
+      "sectionKey": "skills",
+      "sectionType": "chipGroups",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1274
+    },
+    {
+      "id": "katherine-about",
+      "persona": "katherine",
+      "sectionKey": "about",
+      "sectionType": "textAndTimeline",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1761
+    },
+    {
+      "id": "alicia-work",
+      "persona": "alicia",
+      "sectionKey": "work",
+      "sectionType": "cardGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2407
+    },
+    {
+      "id": "alicia-how-i-work",
+      "persona": "alicia",
+      "sectionKey": "how-i-work",
+      "sectionType": "processSteps",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3468
+    },
+    {
+      "id": "alicia-perspectives",
+      "persona": "alicia",
+      "sectionKey": "perspectives",
+      "sectionType": "topicGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [
+        {
+          "rule": "number-fidelity",
+          "message": "Figure \"18\" in \"Across four roles spanning 18 years, Alicia has repeatedly invested in data infrastructure, governance, and analytics capabilities—from building a data warehouse team and launching mobile BI adoption, to leading a claims-data governance program spanning 32 applications. This pattern suggests she sees data maturity and accessibility as foundational to operational efficiency and informed decision-making.\" does not appear in the source text — possible fabrication or rounding."
+        }
+      ],
+      "elapsedMs": 5013
+    },
+    {
+      "id": "alicia-skills",
+      "persona": "alicia",
+      "sectionKey": "skills",
+      "sectionType": "chipGroups",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1839
+    },
+    {
+      "id": "alicia-about",
+      "persona": "alicia",
+      "sectionKey": "about",
+      "sectionType": "textAndTimeline",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2013
+    },
+    {
+      "id": "ben-work",
+      "persona": "ben",
+      "sectionKey": "work",
+      "sectionType": "cardGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2281
+    },
+    {
+      "id": "ben-how-i-work",
+      "persona": "ben",
+      "sectionKey": "how-i-work",
+      "sectionType": "processSteps",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 3688
+    },
+    {
+      "id": "ben-perspectives",
+      "persona": "ben",
+      "sectionKey": "perspectives",
+      "sectionType": "topicGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 4150
+    },
+    {
+      "id": "ben-skills",
+      "persona": "ben",
+      "sectionKey": "skills",
+      "sectionType": "chipGroups",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 1292
+    },
+    {
+      "id": "ben-about",
+      "persona": "ben",
+      "sectionKey": "about",
+      "sectionType": "textAndTimeline",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2312
+    },
+    {
+      "id": "devon-awards-bonus",
+      "persona": "devon",
+      "sectionKey": "awards",
+      "sectionType": "cardGrid",
+      "expectedStatus": "insufficient_evidence",
+      "actualStatus": "insufficient_evidence",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 2207
+    },
+    {
+      "id": "marisol-leadership-bonus",
+      "persona": "marisol",
+      "sectionKey": "leadership-philosophy",
+      "sectionType": "topicGrid",
+      "expectedStatus": "ok",
+      "actualStatus": "ok",
+      "schemaValid": true,
+      "schemaErrors": [],
+      "semanticIssues": [],
+      "elapsedMs": 4143
+    }
+  ],
+  "metrics": {
+    "schemaValidityRate": {
+      "label": "Schema validity rate",
+      "rate": 1,
+      "numerator": 37,
+      "denominator": 37
+    },
+    "groundednessRate": {
+      "label": "Groundedness (number-fidelity proxy)",
+      "rate": 0.9714285714285714,
+      "numerator": 34,
+      "denominator": 35
+    },
+    "completenessRate": {
+      "label": "Completeness (cardGrid/textAndTimeline)",
+      "rate": 1,
+      "numerator": 14,
+      "denominator": 14
+    },
+    "skillCoverageRate": {
+      "label": "Skill-coverage (chipGroups)",
+      "rate": 1,
+      "numerator": 6,
+      "denominator": 6
+    },
+    "dollarRangingRate": {
+      "label": "Dollar-figure ranging compliance",
+      "rate": 1,
+      "numerator": 35,
+      "denominator": 35
+    },
+    "escapeHatch": {
+      "trueTriggerRate": {
+        "label": "Escape-hatch true-trigger rate",
+        "rate": 1,
+        "numerator": 1,
+        "denominator": 1
+      },
+      "falseTriggerRate": {
+        "label": "Escape-hatch false-trigger rate",
+        "rate": 0.027777777777777776,
+        "numerator": 1,
+        "denominator": 36
+      }
+    }
+  }
+}

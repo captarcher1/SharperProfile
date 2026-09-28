@@ -1,0 +1,1414 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* 2026-09-28 — color palette + typography below are taken directly from the
+   "ledger/editorial" design system in Pranay's own reference file
+   (household-portfolio-dashboard_asof_20260904.html, supplied as the template
+   for "the UX changes as we discussed"). Every hex value here is copied
+   verbatim from that file's own :root block — nothing here is a fresh
+   invention or a guess at what "the color theme" meant. Old token names are
+   kept (so every existing component keeps working unchanged) but now point
+   at the reference file's real values; a few new tokens (ink-faint, rule-soft,
+   the green/red/brass soft-background shades, and the serif/sans font stacks)
+   are added below for the left-border "status" coding used on the landing
+   page's benefit cards. */
+:root {
+  color-scheme: light;
+  --bg: #e8ecee; /* was #f7f7f5 — reference's --paper */
+  --surface: #ffffff; /* reference's --panel (unchanged value) */
+  --border: #c4d0d7; /* was #e2e0da — reference's --rule */
+  --border-soft: #dde4e8; /* reference's --rule-soft */
+  --text: #14202b; /* was #1c1b19 — reference's --ink */
+  --text-muted: #42535f; /* was #6b6a66 — reference's --ink-soft */
+  --text-faint: #7a8994; /* reference's --ink-faint */
+  --accent: #0f6e5c; /* was #2f6f4f — reference's --green (the "good/action" color) */
+  --accent-text: #ffffff;
+  --error: #a93b33; /* was #b3261e — reference's --red */
+  --warning-bg: #f1e4c8; /* was #fff6e5 — reference's --brass-soft */
+  --warning-border: #9a6f1e; /* was #e8c877 — reference's --brass */
+  /* Structural/neutral blue — used for the landing flow diagram and for
+     anything that isn't an explicit "good/attention/opportunity" call-out. */
+  --accent-blue: #2c5578; /* was #2b4a7d — reference's --blue, verbatim */
+  --green-soft: #d6e7e2;
+  --red-soft: #f0dcd9;
+  --brass-soft: #f1e4c8;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+/* 2026-09-28 — sticky so the product name + Home/Help links stay visible
+   while scrolling any page (landing included), per Pranay's request. Sticky
+   rather than fixed: it stays in normal document flow, so no page needs
+   extra top padding to compensate — it just pins once the page scrolls past
+   it. z-index keeps it above the landing page's flow-diagram/section content. */
+.siteHeader {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.siteHeaderInner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* 2026-09-28 — the name is now a real link (components/SiteHeaderName.tsx),
+   wrapped so its "unsaved progress?" confirmation can pop out below it
+   without shifting the sticky header's own height/layout. */
+.siteHeaderNameWrap {
+  position: relative;
+  display: flex;
+}
+
+.siteHeaderName {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-decoration: none;
+  display: inline-block;
+  border: 4px solid var(--accent);
+  border-radius: 10px;
+  padding: 4px 14px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.siteHeaderNameConfirm {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 60;
+  width: max-content;
+  max-width: 340px;
+  margin-bottom: 0;
+  box-shadow: 0 8px 24px rgba(20, 32, 43, 0.16);
+}
+
+.siteHeaderNameConfirm .actions {
+  flex-wrap: wrap;
+}
+
+.siteHeaderNav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.siteHeaderHome {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.siteHeaderHome:hover {
+  text-decoration: underline;
+}
+
+/* Site-wide footer (2026-09-28) — attribution + AI-accuracy disclaimer,
+   rendered once in app/layout.tsx so it appears under every page. */
+.siteFooter {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  margin-top: 48px;
+}
+
+.siteFooterInner {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 24px 32px;
+}
+
+.siteFooterAttribution {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 8px;
+}
+
+.siteFooterDisclaimer {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 62ch;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 96px;
+}
+
+h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.75rem;
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  margin-top: 0;
+}
+
+.lede {
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.fieldLabel {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+button {
+  font: inherit;
+  padding: 10px 18px;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-text);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 2026-09-28 — a "3D"/raised look for every real button-style control in the
+   app: a solid drop shadow beneath it at rest, which flattens and the button
+   nudges down 2px on press — a physical, keycap-like press rather than just
+   a flat color swap. Shared across every button-ish class so the effect is
+   consistent everywhere (wizard actions, the toolbar, the landing page's
+   CTAs, small icon buttons) rather than one-off per component. Excluded:
+   `.tagChip button` (the tiny "×" remove glyph inside a tag chip) — that one
+   is deliberately background:none/border:none to blend into the chip, and a
+   shadow under a bare "×" would look like a stray artifact, not a button. */
+button,
+.linkButton,
+.landingCtaPrimary,
+.landingCtaSecondary,
+.iconButton {
+  box-shadow:
+    0 3px 0 rgba(20, 32, 43, 0.25),
+    0 4px 8px rgba(20, 32, 43, 0.12);
+  transition: box-shadow 0.1s ease, transform 0.1s ease;
+}
+
+button:not(:disabled):active,
+.linkButton:not(.disabled):active,
+.landingCtaPrimary:active,
+.landingCtaSecondary:active,
+.iconButton:not(:disabled):active {
+  box-shadow: 0 1px 0 rgba(20, 32, 43, 0.25);
+  transform: translateY(2px);
+}
+
+.tagChip button {
+  box-shadow: none;
+  transform: none;
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--accent);
+}
+
+/* 2026-09-28 — the 3 forward-progress buttons (Step 1→2, Step 2→3, Step
+   3→4) share this look: muted/outline at rest, turning solid accent-green
+   on hover — the exact same muted→green→muted pattern already built for the
+   wizard toolbar's own buttons above, just applied here too. Used on both a
+   real <button> (Step 2, which needs a `disabled` state) and on <Link>s
+   styled as buttons (Steps 1 and 3), so it overrides whichever base look
+   that element would otherwise have (a plain link vs. the solid-green
+   default `button` style) to the same shared resting/hover states. */
+.continueButton {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.continueButton:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.continueButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* The green arrow placed just before each `.continueButton` — thick and
+   animated with a small horizontal nudge so it reads as "look here, click
+   this next" rather than blending into the page. Decorative only (see
+   components/ContinueArrow.tsx); frozen under reduced motion. */
+.continueArrow {
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent);
+  animation: continueArrowNudge 1.1s ease-in-out infinite;
+}
+
+@keyframes continueArrowNudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .continueArrow {
+    animation: none;
+  }
+}
+
+.error {
+  color: var(--error);
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+.warnings {
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+}
+
+.warningsTitle {
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.warnings ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.structureChecklist {
+  margin: 0 0 16px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.structureChecklist li {
+  line-height: 1.5;
+}
+
+.meta {
+  color: var(--text-muted);
+  margin-top: 0;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 16px 0;
+}
+
+.summary dt {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.summary dd {
+  margin: 0;
+}
+
+.nextStepNote {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-bottom: 0;
+}
+
+.linkButton {
+  font: inherit;
+  padding: 10px 18px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* 2026-09-28 — a plain <a>/<Link> has no native disabled state the way
+   <button disabled> does; Step 2's "Continue" became a real Link (nothing
+   left to save-then-navigate now that every choice autosaves) but still
+   needs to visually refuse a click when no section is selected. */
+.linkButton.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Wizard step-progress indicator — top of all 3 wizard pages */
+.wizardSteps {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+}
+
+.wizardStep {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+}
+
+.wizardStepNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  background: var(--surface);
+}
+
+.wizardStepLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.wizardStepConnector {
+  width: 32px;
+  height: 1px;
+  background: var(--border);
+  margin: 0 12px;
+  flex-shrink: 0;
+}
+
+.wizardStep-current .wizardStepNumber {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+}
+
+.wizardStep-current .wizardStepLabel {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.wizardStep-done .wizardStepNumber {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.wizardStep-done .wizardStepLabel {
+  color: var(--text);
+}
+
+/* 2026-09-28 — a "done" step is now a real link (see WizardSteps.tsx).
+   Deliberately no underline/color-shift on its own text, so it reads as
+   "this is where you are in the flow, and also clickable" rather than
+   looking like a plain text hyperlink dropped into a progress indicator. */
+.wizardStepLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 6px;
+}
+
+.wizardStepLink:hover .wizardStepLabel,
+.wizardStepLink:focus-visible .wizardStepLabel {
+  text-decoration: underline;
+}
+
+.wizardStepLink:hover .wizardStepNumber,
+.wizardStepLink:focus-visible .wizardStepNumber {
+  background: var(--warning-bg);
+}
+
+/* Save/Export + Import toolbar (B5/B6), shown under the step breadcrumb on all 3 wizard pages.
+   2026-09-28: visually muted relative to the stepper above it — it was
+   flagged as competing for attention right from Step 1, before there's
+   anything to export yet. Smaller and quieter, not hidden — every control
+   here stays reachable in one click. */
+.wizardToolbar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 0 24px;
+}
+
+.wizardToolbarMuted {
+  opacity: 0.75;
+}
+
+.wizardToolbarMuted .linkButton,
+.wizardToolbarMuted button {
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+.wizardToolbarMuted:hover {
+  opacity: 1;
+}
+
+/* 2026-09-28 — each button in the muted toolbar now turns the site's own
+   accent green on hover (text + border), reverting the instant the mouse
+   leaves — a per-button affordance on top of the whole-group opacity fade
+   above, not a replacement for it. `:not(:disabled)` so "Importing…" mid-flight
+   doesn't flash green while it's unavailable to click. */
+.wizardToolbarMuted .linkButton:hover,
+.wizardToolbarMuted button:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.linkButton.small,
+button.small {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+/* Step 2 — section picker */
+.sectionList {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionRow + .sectionRow {
+  border-top: 1px solid var(--border);
+}
+
+.sectionLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 4px;
+  cursor: pointer;
+}
+
+.sectionLabel input[type="checkbox"] {
+  margin-top: 4px;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.sectionText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sectionTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sectionTitle {
+  font-weight: 600;
+}
+
+.sectionDescription {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.badgeAi {
+  background: var(--green-soft);
+  color: var(--accent);
+}
+
+.badgeAuto {
+  background: #eeece5;
+  color: var(--text-muted);
+}
+
+/* Step 2 — headshot preview. Deliberately matches Track B's own Hero.tsx
+   crop treatment (h-48 w-48 rounded-[16px] object-cover) so the preview here
+   is exactly what will be published — the direct mitigation for A7's "no
+   cropping UI" decision (B3 golden example 1). */
+.headshotRow {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.headshotPreview {
+  width: 192px;
+  height: 192px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headshotImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.headshotPlaceholder {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.headshotControls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* Step 3 — provider list + review/edit screen */
+.providerList {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.providerRow {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.providerRow.providerReady {
+  border-color: var(--accent);
+}
+
+.providerLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.providerConfigure {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.providerConfigure input {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font: inherit;
+}
+
+.reviewBlock {
+  border-top: 1px solid var(--border);
+  padding: 16px 0;
+}
+
+.reviewBlock:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+/* Step 3 — per-section-type review/edit forms */
+.sectionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 12px 0;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formFieldLabel {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.required {
+  color: var(--error);
+}
+
+.formField input[type="text"],
+.formField textarea {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font: inherit;
+  background: var(--surface);
+  color: var(--text);
+  width: 100%;
+}
+
+.formField textarea {
+  resize: vertical;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.formRow .formField {
+  gap: 6px;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.linkFieldRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.linkFieldRow input {
+  flex: 1;
+  min-width: 160px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font: inherit;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: var(--surface);
+}
+
+.tagChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 2px 4px 2px 10px;
+  font-size: 0.85rem;
+}
+
+.tagChip button {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 6px;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.tagInput {
+  flex: 1;
+  min-width: 120px;
+  border: none;
+  outline: none;
+  padding: 4px;
+  font: inherit;
+  background: transparent;
+}
+
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.itemCard {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itemCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.itemCardTitle {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.itemCardActions {
+  display: flex;
+  gap: 6px;
+}
+
+.iconButton {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.iconButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Mouseover help text — CSS-only, no JS/library needed. Add the `hasTip`
+   class plus a `data-tip="..."` attribute to any element whose descendants
+   (a field's label text AND its input/textarea) should reveal the same
+   help bubble on hover: `:hover`/`:focus-within` on the wrapping element
+   fires for hovering or focusing ANY child inside it, which is exactly
+   "hover the title or the textbox" without writing two separate tooltips
+   or restructuring the DOM. A plain <button> can take `hasTip`/`data-tip`
+   directly since buttons support generated content; <input>/<textarea>
+   can't (they're replaced elements, per the CSS spec, and never render
+   ::before/::after) — those are always reached by wrapping them in a
+   `hasTip` ancestor (usually the field's own <label> or wrapping <div>)
+   instead of tagging the input itself. `data-tip` is only set when real
+   help text exists, so the `[data-tip]` half of the selector means this is
+   a no-op everywhere else — no visual change for a field with no help. */
+.hasTip {
+  position: relative;
+}
+
+/* Small "info available" affordance next to a label — otherwise a CSS-only
+   tooltip has no visual hint that hovering does anything. Purely
+   decorative (aria-hidden), since the hoverable/focusable area is the
+   wrapping .hasTip element, not this icon specifically. */
+.tipIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-left: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--text-muted);
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-style: normal;
+  line-height: 1;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.hasTip[data-tip]:hover::after,
+.hasTip[data-tip]:focus-within::after {
+  content: attr(data-tip);
+  position: absolute;
+  z-index: 30;
+  left: 0;
+  bottom: calc(100% + 8px);
+  width: max-content;
+  max-width: 320px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #1c1b19;
+  color: #f7f7f5;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: normal;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+/* ============================================================
+   Landing page (app/page.tsx) — 2026-09-28 rebuild.
+   Scoped under .landing so nothing here leaks into the wizard's
+   own .page/.card layout, which stays at its narrower 720px width.
+   ============================================================ */
+
+.landing {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px 96px;
+}
+
+.landingHero {
+  padding: 72px 0 56px;
+  text-align: center;
+}
+
+.landingEyebrow {
+  display: inline-block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.landingHero h1 {
+  font-size: clamp(1.85rem, 3.8vw, 2.85rem);
+  line-height: 1.15;
+  max-width: 780px;
+  margin: 0 auto 20px;
+}
+
+.landingHeroSub {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 620px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+
+.landingCtaRow {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.landingCtaPrimary {
+  font: inherit;
+  font-weight: 600;
+  padding: 14px 26px;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-text);
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.landingCtaSecondary {
+  font: inherit;
+  padding: 14px 22px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Logo strip — "works with" row. Monochrome on purpose: these are official
+   brand marks used to indicate compatibility, not endorsement, so a plain
+   single-color treatment (rather than each brand's real color) keeps that
+   distinction visually obvious and avoids the strip reading like a sponsor
+   wall. Source: the `simple-icons` npm package (real, version-checked against
+   the live registry before use), never hand-traced or invented. */
+.landingLogos {
+  padding: 28px 0 48px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.landingLogosLabel {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.landingLogoRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+
+.landingLogo {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  width: auto;
+  color: var(--text-muted);
+  opacity: 0.75;
+  transition: opacity 0.15s ease;
+}
+
+.landingLogo:hover {
+  opacity: 1;
+}
+
+.landingLogo svg {
+  height: 100%;
+  width: auto;
+  fill: currentColor;
+  display: block;
+}
+
+/* Screenshot proof section */
+.landingSection {
+  padding: 64px 0;
+}
+
+.landingSection h2 {
+  font-size: 1.7rem;
+  text-align: center;
+  margin: 0 0 8px;
+}
+
+.landingSectionSub {
+  text-align: center;
+  color: var(--text-muted);
+  max-width: 560px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+.landingShotGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.landingShotCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(20, 32, 43, 0.06);
+}
+
+.landingShotChrome {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.landingShotDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.landingShotFrame {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.landingShotFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.landingShotCaption {
+  padding: 12px 16px 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.landingShotSourceLink {
+  display: block;
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.9rem;
+}
+
+/* Animated 4-step flow diagram — sequenced per Pranay's exact spec
+   (2026-09-28 rebuild): icon 1 highlights alone; its outgoing arrow starts
+   while icon 1 is still lit; focus moves to icon 2; the icon2→3 arrow starts
+   and the icon1→2 arrow stops together; focus moves to icon 3; the icon3→4
+   arrow starts and the icon2→3 arrow stops together; focus moves to icon 4;
+   then icon 4 holds, alone and arrow-free, before the whole thing loops back
+   to icon 1. One shared 8.4s timeline drives every icon and arrow so nothing
+   drifts out of sync, using `steps(1, end)` (no interpolation, just instant
+   on/off at each keyframe boundary) rather than a gradual fade:
+   - Each icon is "on" (highlighted) for one lit quarter of the cycle —
+     `landingFlowIconOn`, staggered 2.1s apart via animation-delay.
+   - Each arrow is "on" (visible + marching) for one quarter too —
+     `landingFlowArrowOn`, phase-shifted 1.05s after its origin icon's own
+     delay, so it starts partway through that icon's lit window (matching
+     "the arrow starts while the icon is still highlighted") and keeps
+     marching through the *next* icon's lit window until the *following*
+     arrow takes over (matching "arrow N+1 starts, arrow N stops" as one
+     paired event). The last arrow (3→4) has no arrow to hand off to, so it
+     simply finishes on its own, leaving icon 4 lit alone for the final
+     quarter — an arrow-free hold before the loop restarts, mirroring icon
+     1's own opening hold.
+   One small, disclosed judgment call: the spec describes the very last
+   handoff (arrow 3→4 starting) as exactly simultaneous with the icon 3→4
+   focus shift, but every earlier arrow in the sequence starts a beat before
+   its icon's own handoff. Arrow 3 follows that same beat-before pattern here
+   too, so the whole diagram keeps one consistent rhythm rather than a
+   one-off exception on the last step — flag this if the exact-simultaneous
+   version is what you actually want instead. */
+.landingFlow {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* Each arrow is inset by the icon's own radius (28px) on both ends via
+   calc(), so it starts/ends in the gap between circles rather than running
+   underneath them, regardless of the container's actual rendered width. */
+.landingFlowConnectors {
+  position: absolute;
+  top: 27px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.landingFlowArrow {
+  position: absolute;
+  top: 0;
+  height: 2px;
+  background-image: repeating-linear-gradient(to right, var(--accent-blue) 0 8px, transparent 8px 16px);
+  background-size: 32px 2px;
+  background-repeat: repeat-x;
+  /* Base opacity 0: invisible until its own landingFlowArrowOn delay elapses
+     (animation-fill-mode defaults to "none", so the base style — not the 0%
+     keyframe — applies during that delay). landingFlowDash is the always-
+     running dash-march; landingFlowArrowOn is the on/off gate layered on
+     top of it. */
+  opacity: 0;
+  animation:
+    landingFlowDash 1s linear infinite,
+    landingFlowArrowOn 8.4s steps(1, end) infinite;
+}
+
+.landingFlowArrow::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--accent-blue);
+  opacity: 0.7;
+}
+
+.landingFlowArrow-1 {
+  left: calc(12.5% + 28px);
+  width: calc(25% - 56px);
+  animation-delay: 0s, 1.05s;
+}
+.landingFlowArrow-2 {
+  left: calc(37.5% + 28px);
+  width: calc(25% - 56px);
+  animation-delay: 0s, 3.15s;
+}
+.landingFlowArrow-3 {
+  left: calc(62.5% + 28px);
+  width: calc(25% - 56px);
+  animation-delay: 0s, 5.25s;
+}
+
+@keyframes landingFlowDash {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 32px 0;
+  }
+}
+
+/* On for the first quarter (1/4 of 8.4s = 2.1s) of this arrow's own delayed
+   cycle, off for the rest — steps(1, end) makes both the on→off cut at 25%
+   and the eventual wraparound back to on completely instant. */
+@keyframes landingFlowArrowOn {
+  0% {
+    opacity: 0.7;
+  }
+  25% {
+    opacity: 0;
+  }
+}
+
+.landingFlowStep {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 8px;
+}
+
+.landingFlowIcon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: landingFlowIconOn 8.4s steps(1, end) infinite;
+}
+
+/* nth-child counts ALL of .landingFlow's children, and .landingFlowConnectors
+   (the arrows wrapper) is the actual first child, ahead of the 4
+   .landingFlowStep divs — so the 4 steps are children 2-5, not 1-4. (This
+   off-by-one existed in the previous landingFlowPulse version too — every
+   icon's pulse delay was silently shifted by one step, e.g. icon 1 actually
+   ran on icon 2's intended delay. It never showed up before because that
+   animation was just a decorative independent pulse with no required left-
+   to-right order to violate; it matters now that the sequence is strict, so
+   it's fixed here.) */
+.landingFlowStep:nth-child(2) .landingFlowIcon {
+  animation-delay: 0s;
+}
+.landingFlowStep:nth-child(3) .landingFlowIcon {
+  animation-delay: 2.1s;
+}
+.landingFlowStep:nth-child(4) .landingFlowIcon {
+  animation-delay: 4.2s;
+}
+.landingFlowStep:nth-child(5) .landingFlowIcon {
+  animation-delay: 6.3s;
+}
+
+.landingFlowIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.landingFlowStepTitle {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.landingFlowStepDesc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* On for the first quarter of this icon's own delayed cycle, off (plain
+   neutral style) for the rest — same steps(1, end) instant-cut approach as
+   the arrows, on the same shared 8.4s timeline. */
+@keyframes landingFlowIconOn {
+  0% {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+    box-shadow: 0 0 0 6px rgba(43, 74, 125, 0.12);
+  }
+  25% {
+    border-color: var(--border);
+    color: var(--text-muted);
+    box-shadow: none;
+  }
+}
+
+/* Respect reduced-motion preference — the flow diagram is decorative, not
+   informational (the same 4 steps are named in plain text right under each
+   icon), so freezing it costs nothing functionally. Disabling the animation
+   reverts icons to their plain neutral style and arrows to their base
+   opacity: 0 (invisible) — a clean, fully static diagram, not a frozen
+   mid-animation snapshot. */
+@media (prefers-reduced-motion: reduce) {
+  .landingFlowIcon,
+  .landingFlowArrow {
+    animation: none !important;
+  }
+}
+
+/* Benefit cards */
+.landingBenefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* 2026-09-28 — left-border "status" coding, straight from the reference
+   dashboard's .kpi.accent/.kpi.good pattern (a colored left border, not a
+   filled background, keeps these readable as plain cards): speed reads as
+   the "good/fast" outcome (green), privacy as the structural/neutral fact
+   about how the tool is built (blue), ownership as the upside (brass). */
+.landingBenefitCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: 4px;
+  padding: 28px 24px;
+}
+
+.landingBenefitCard-speed {
+  border-left-color: var(--accent);
+}
+
+.landingBenefitCard-privacy {
+  border-left-color: var(--accent-blue);
+}
+
+.landingBenefitCard-ownership {
+  border-left-color: var(--warning-border);
+}
+
+.landingBenefitIcon {
+  width: 40px;
+  height: 40px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.landingBenefitCard h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+}
+
+.landingBenefitCard p {
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.92rem;
+}
+
+.landingFinalCta {
+  text-align: center;
+  padding: 56px 32px;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.landingFinalCta h2 {
+  margin: 0 0 12px;
+}
+
+.landingFinalCta p {
+  color: var(--text-muted);
+  max-width: 480px;
+  margin: 0 auto 24px;
+}
+
+.landingFooterNote {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-top: 32px;
+}
+
+@media (max-width: 780px) {
+  .landingShotGrid,
+  .landingBenefits {
+    grid-template-columns: 1fr;
+  }
+  .landingFlow {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .landingFlowConnectors {
+    display: none;
+  }
+  .landingLogoRow {
+    gap: 24px;
+  }
+}

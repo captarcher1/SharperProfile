@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 320" width="860" height="320" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="860" height="320" fill="#ffffff"/>
+
+  <!-- Center: Your computer -->
+  <g>
+    <rect x="330" y="120" width="200" height="90" rx="4" fill="#ffffff" stroke="#2c5578" stroke-width="2"/>
+    <rect x="366" y="140" width="128" height="42" rx="2" fill="#ffffff" stroke="#2c5578" stroke-width="2"/>
+    <rect x="356" y="182" width="148" height="8" rx="1" fill="#2c5578"/>
+    <text x="430" y="228" text-anchor="middle" font-size="15" font-weight="700" font-family="Charter, Georgia, serif" fill="#14202b">Your computer</text>
+    <text x="430" y="244" text-anchor="middle" font-size="11" fill="#42535f">(keys stored only here)</text>
+  </g>
+
+  <!-- Right: AI provider -->
+  <g>
+    <rect x="620" y="20" width="216" height="86" rx="4" fill="#ffffff" stroke="#0f6e5c" stroke-width="1.5"/>
+    <text x="728" y="55" text-anchor="middle" font-size="14" font-weight="600" font-family="Charter, Georgia, serif" fill="#0f6e5c">Your AI provider</text>
+    <text x="728" y="74" text-anchor="middle" font-size="11.5" fill="#42535f">Anthropic · Google · OpenRouter</text>
+    <text x="728" y="90" text-anchor="middle" font-size="11.5" fill="#42535f">(or fully local Ollama — no key at all)</text>
+  </g>
+  <path d="M 532 145 C 590 120, 590 90, 618 65" stroke="#0f6e5c" stroke-width="2.5" fill="none" marker-end="url(#arrowg)"/>
+
+  <!-- Right-lower: Vercel -->
+  <g>
+    <rect x="620" y="214" width="216" height="86" rx="4" fill="#ffffff" stroke="#0f6e5c" stroke-width="1.5"/>
+    <text x="728" y="249" text-anchor="middle" font-size="14" font-weight="600" font-family="Charter, Georgia, serif" fill="#0f6e5c">Vercel</text>
+    <text x="728" y="268" text-anchor="middle" font-size="11.5" fill="#42535f">to publish your finished site</text>
+    <text x="728" y="284" text-anchor="middle" font-size="11.5" fill="#42535f">using your own account</text>
+  </g>
+  <path d="M 532 185 C 590 210, 590 240, 618 257" stroke="#0f6e5c" stroke-width="2.5" fill="none" marker-end="url(#arrowg)"/>
+
+  <!-- Left: Developer's servers, crossed out -->
+  <g>
+    <rect x="24" y="117" width="216" height="86" rx="4" fill="#f0dcd9" stroke="#a93b33" stroke-width="1.5"/>
+    <text x="132" y="152" text-anchor="middle" font-size="14" font-weight="600" font-family="Charter, Georgia, serif" fill="#a93b33">Developer's servers</text>
+    <text x="132" y="171" text-anchor="middle" font-size="11.5" fill="#a93b33">never contacted</text>
+    <text x="132" y="187" text-anchor="middle" font-size="11.5" fill="#a93b33">never see your keys or data</text>
+  </g>
+  <path d="M 328 160 L 244 160" stroke="#a93b33" stroke-width="2.5" stroke-dasharray="6 5" fill="none"/>
+  <line x1="260" y1="146" x2="284" y2="174" stroke="#a93b33" stroke-width="3" stroke-linecap="round"/>
+  <line x1="284" y1="146" x2="260" y2="174" stroke="#a93b33" stroke-width="3" stroke-linecap="round"/>
+
+  <defs>
+    <marker id="arrowg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f6e5c"/>
+    </marker>
+  </defs>
+
+  <text x="430" y="312" text-anchor="middle" font-size="12.5" fill="#42535f">Keys travel only from your computer straight to the service you're using them for — never to the developer.</text>
+</svg>

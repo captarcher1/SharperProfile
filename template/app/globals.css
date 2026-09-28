@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  /* Design tokens. Edit these to reskin the whole site — every component
+     reads colors through these variables, never a hardcoded hex value. */
+  --ink-navy: #102a43; /* headlines, navigation, key statements */
+  --ink-body: #243b53; /* long-form copy */
+  --ink-muted: #486581; /* captions, metadata, secondary labels */
+  --accent: #0f766e; /* availability/status, focus, small link emphasis */
+  --surface: #f0f4f8; /* card backgrounds and soft visual grouping */
+  --border: #d9e2ec; /* subtle card and divider boundaries */
+  --background: #ffffff;
+}
+
+@theme inline {
+  --color-ink-navy: var(--ink-navy);
+  --color-ink-body: var(--ink-body);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-background: var(--background);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--ink-body);
+  font-family: var(--font-sans);
+}
+
+/* Focus visibility for keyboard navigation. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* 2026-09-27 — print stylesheet for the "Download as PDF" button
+   (window.print()). Tailwind's own print: variant (print:hidden, used on
+   Navbar's header and on DownloadProfileButton itself) handles hiding
+   interactive-only chrome; this covers the parts a utility class can't —
+   forcing background/text colors to actually print (browsers drop
+   background colors by default) and giving the page reasonable margins. */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    margin: 0.75in;
+  }
+
+  body {
+    background: #ffffff;
+  }
+}

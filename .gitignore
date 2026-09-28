@@ -1,0 +1,29 @@
+node_modules/
+dist/
+*.log
+.next/
+.env.local
+.env*.local
+.wizard-sessions/
+
+# --- Added 2026-09-28: non-app content that now physically lives in this
+# folder (per the inner/outer folder merge) but should NOT go into the
+# SharperProfile GitHub repo. Track B (portfolio-website/) is a separate,
+# unrelated project; the rest is internal planning history, old archived
+# snapshots, and QA test fixtures. Remove any of these lines if you decide
+# you actually want that content version-controlled. ---
+/portfolio-website/
+/PROJECT-STATE.md
+/PROJECT-STATE-1.md
+/TESTING-WITH-OLLAMA.md
+/ai-pm-skill-improvement-log.md
+/phase1-build-plan.md
+/portfolio-builder-ai-feature-prd.md
+/portfolio-template-plan.md
+/ux-wizard-and-provider-config-plan.md
+/wizard-phase*.md
+/SharperProfile push to GitHub.docx
+/archive/
+/_to_delete/
+/golden-set/
+/adversarial-suite/

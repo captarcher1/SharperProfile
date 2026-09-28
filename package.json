@@ -1,0 +1,37 @@
+{
+  "name": "portfolio-website-builder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-assisted portfolio builder tool. Includes the B2 extraction / schema-validator / provider-abstraction / B1-prompt / eval-harness pipeline (src/), and — as of Phase 1 wizard build, 2026-09-06 — the beginning of the wizard UI itself (app/), a Next.js app layered into this same repo per the resolved 'all-in' architecture decision (A2/OQ-4).",
+  "type": "commonjs",
+  "scripts": {
+    "test:golden": "tsx test/run-golden-set.ts",
+    "test:adversarial": "tsx test/run-adversarial-suite.ts",
+    "test:schema": "tsx test/run-schema-validation.ts",
+    "test:providers": "tsx test/run-provider-smoke.ts",
+    "test:b1-baseline": "tsx test/run-b1-baseline.ts",
+    "eval": "tsx eval/runEval.ts",
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "test:wizard": "tsx wizard-test/run-wizard-tests.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.122.0",
+    "cheerio": "^1.2.0",
+    "mammoth": "^1.12.1",
+    "next": "^15.0.0",
+    "pdf-parse": "1.1.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "undici": "^7.29.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
