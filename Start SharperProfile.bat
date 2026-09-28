@@ -67,9 +67,14 @@ echo Keep this window open while you use the tool - closing it stops SharperProf
 echo.
 
 REM Opens the browser the moment the server actually responds, instead of
-REM guessing a fixed delay. Runs invisibly in the background so the only
-REM window you see is this one - the real running server, below.
+REM guessing a fixed delay. Also attempts to minimize this window once the
+REM browser opens (by process id, not title - npm changes the window title,
+REM which broke an earlier title-based version of this) but this has not
+REM been confirmed to work reliably and is left in as a harmless best-effort
+REM only - closing the window (not minimizing it) is the one thing this tool
+REM promises actually stops SharperProfile. Runs invisibly in the background,
+REM so the only window you ever see is this one.
 start /min "" powershell -NoProfile -WindowStyle Hidden -Command ^
-  "for ($i=0; $i -lt 60; $i++) { try { $r = Invoke-WebRequest -Uri 'http://localhost:3001' -UseBasicParsing -TimeoutSec 1; if ($r.StatusCode -eq 200) { Start-Process 'http://localhost:3001'; exit } } catch {}; Start-Sleep -Seconds 1 }"
+  "$sig = '[DllImport(\"user32.dll\")] public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);'; Add-Type -MemberDefinition $sig -Name Win32 -Namespace Native; $parentId = (Get-CimInstance Win32_Process -Filter \"ProcessId=$PID\").ParentProcessId; for ($i=0; $i -lt 60; $i++) { try { $r = Invoke-WebRequest -Uri 'http://localhost:3001' -UseBasicParsing -TimeoutSec 1; if ($r.StatusCode -eq 200) { Start-Process 'http://localhost:3001'; try { $hwnd = (Get-Process -Id $parentId -ErrorAction Stop).MainWindowHandle; if ($hwnd -ne [IntPtr]::Zero) { [Native.Win32]::ShowWindow($hwnd, 6) } } catch {}; exit } } catch {}; Start-Sleep -Seconds 1 }"
 
 call npm run dev
