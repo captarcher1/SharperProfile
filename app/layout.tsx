@@ -13,12 +13,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Tiny, synchronous, blocking on purpose — see globals.css's
             `html.js [data-reveal]` comment. Runs before first paint, so
             there's no flash of hidden-then-shown content for JS users, and
-            no permanently-blank sections for anyone without JS. */}
+            no permanently-blank sections for anyone without JS.
+
+            suppressHydrationWarning on <html> above: this script
+            intentionally mutates documentElement's class before React
+            hydrates, so the server-rendered markup (no class) and the
+            live DOM (class="js") will always differ at hydration time.
+            That's expected — same pattern used for theme-detection
+            scripts — so we tell React not to flag it instead of trying
+            to make the server and client agree on something that must
+            differ by design. Nothing else about hydration is affected:
+            this only silences the mismatch warning for <html>'s own
+            attributes, not for its children. */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
       <body>
