@@ -16,7 +16,7 @@ export default function Section({ id, heading, className = "", children }: Secti
     <section id={id} className={`border-t border-border ${className}`}>
       <div className="mx-auto max-w-[1200px] px-5 py-11 sm:px-8 md:py-14">
         {heading && (
-          <h2 className="text-2xl font-semibold text-ink-navy sm:text-3xl">{heading}</h2>
+          <h2 className="font-serif text-2xl font-semibold tracking-tight text-ink-navy sm:text-3xl">{heading}</h2>
         )}
         <div className={heading ? "mt-6" : ""}>{children}</div>
       </div>

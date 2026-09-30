@@ -32,7 +32,7 @@ export default function LogoCredentials({
                 <span className="text-xs font-medium tracking-wide text-ink-muted uppercase">
                   {item.issuer}
                 </span>
-                <span className="mt-1 text-sm font-semibold text-ink-navy">{item.title}</span>
+                <span className="mt-1 font-serif text-sm font-semibold text-ink-navy">{item.title}</span>
                 {item.href && (
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-accent group-hover:underline">
                     Verify credential
@@ -42,8 +42,7 @@ export default function LogoCredentials({
               </span>
             </>
           );
-          const className =
-            "group flex items-start gap-4 rounded-[16px] border border-border bg-surface p-6 transition-colors hover:border-accent";
+          const className = "group flex items-start gap-4 bg-surface p-6 tplCard";
           return item.href ? (
             <a key={item.title} href={item.href} target="_blank" rel="noopener noreferrer" className={className}>
               {card}

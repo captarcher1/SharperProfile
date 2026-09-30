@@ -60,7 +60,7 @@ function ImageCard({
             {badge}
           </span>
         )}
-        <h3 className="mt-3 text-lg font-semibold text-ink-navy">{title}</h3>
+        <h3 className="mt-3 font-serif text-lg font-semibold text-ink-navy">{title}</h3>
         {tagline && <p className="mt-1 text-sm font-medium text-accent">{tagline}</p>}
         <p className="mt-3 text-sm leading-relaxed text-ink-body">{description}</p>
         {chips && chips.length > 0 && (
@@ -85,8 +85,7 @@ function ImageCard({
     </>
   );
 
-  const className =
-    "group flex flex-col overflow-hidden rounded-[16px] border border-border bg-background transition-colors hover:border-accent";
+  const className = "group flex flex-col overflow-hidden bg-background tplCard";
 
   return href ? (
     <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
@@ -108,7 +107,7 @@ function IconCard({
 }: CardGridData[number] & { tintIndex?: number }) {
   const Icon = icon ? iconMap[icon] : undefined;
   return (
-    <div className="relative overflow-hidden rounded-[16px] border border-border p-6 sm:p-7">
+    <div className="relative overflow-hidden p-6 sm:p-7 tplCard">
       <CardWatermark title={title} tintIndex={tintIndex} />
       <div className="relative">
         <div className="flex items-center gap-3">
@@ -117,7 +116,7 @@ function IconCard({
               <Icon size={20} className="text-gray-700" aria-hidden="true" />
             </span>
           )}
-          <h3 className="text-lg font-semibold text-ink-navy">{title}</h3>
+          <h3 className="font-serif text-lg font-semibold text-ink-navy">{title}</h3>
         </div>
         <p className="mt-3 text-sm leading-relaxed text-ink-body">{description}</p>
         {badge && !href && <p className="mt-3 text-xs text-ink-muted">{badge}</p>}

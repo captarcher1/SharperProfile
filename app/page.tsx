@@ -121,29 +121,36 @@ export default function LandingPage() {
   return (
     <main className="landing">
       <section className="landingHero">
-        <span className="landingEyebrow">AI-assisted portfolio builder</span>
-        <h1>
-          Turn your résumé into a live portfolio site — in minutes, without handing your data to anyone.
-        </h1>
-        <p className="landingHeroSub">
-          A résumé is a list — recruiters, hiring managers, and admissions committees skim it in seconds and move on.
-          A live portfolio site is different: a place where your work, your projects, and your story actually get
-          seen, not just scanned. Whether you&apos;re a student building your first portfolio, a recent grad trying
-          to stand out in a crowded job market, or an experienced professional going for your next role,{" "}
-          {PRODUCT_NAME} turns the résumé you already have into that site — in minutes, no design skills required,
-          using the AI provider you choose.
-        </p>
-        <div className="landingCtaRow">
-          <a href="#how-it-works" className="landingCtaPrimary">
-            See how it works
-          </a>
-          <Link href="/wizard/step-1-upload" className="landingCtaSecondary">
-            Skip ahead — start now →
-          </Link>
+        <div className="landingHeroSplit">
+          <div>
+            <span className="landingEyebrow">AI-assisted portfolio builder</span>
+            <h1>
+              Turn your résumé into a live portfolio site — in minutes, without handing your data to anyone.
+            </h1>
+            <p className="landingHeroSub">
+              A résumé is a list — recruiters, hiring managers, and admissions committees skim it in seconds and move
+              on. A live portfolio site is different: a place where your work, your projects, and your story
+              actually get seen, not just scanned. Whether you&apos;re a student building your first portfolio, a
+              recent grad trying to stand out in a crowded job market, or an experienced professional going for your
+              next role, {PRODUCT_NAME} turns the résumé you already have into that site — in minutes, no design
+              skills required, using the AI provider you choose.
+            </p>
+            <div className="landingCtaRow">
+              <a href="#how-it-works" className="landingCtaPrimary">
+                See how it works
+              </a>
+              <Link href="/wizard/step-1-upload" className="landingCtaSecondary">
+                Skip ahead — start now →
+              </Link>
+            </div>
+          </div>
+          <div className="landingHeroArt" aria-hidden="true">
+            <Image src="/landing/screenshot-hero.jpg" alt="" width={790} height={912} priority />
+          </div>
         </div>
       </section>
 
-      <section className="landingLogos">
+      <section className="landingLogos" data-reveal>
         <p className="landingLogosLabel">Bring your own AI provider. Publish to your own Vercel account.</p>
         <div className="landingLogoRow">
           {LOGOS.map((logo) => (
@@ -154,7 +161,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="landingSection">
+      <section className="landingSection" data-reveal>
         <h2>A real site, built this way</h2>
         <p className="landingSectionSub">
           This is Pranay&apos;s own portfolio — generated and published with this exact wizard, not a mockup.
@@ -204,7 +211,7 @@ export default function LandingPage() {
         </a>
       </section>
 
-      <section className="landingSection" id="how-it-works">
+      <section className="landingSection" id="how-it-works" data-reveal>
         <h2>How it works</h2>
         <p className="landingSectionSub">Four steps, each a real page — nothing hidden behind a black box.</p>
         <div className="landingFlow">
@@ -223,7 +230,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="landingSection">
+      <section className="landingSection" data-reveal>
         <h2>Why this, not just ChatGPT and a template</h2>
         <div className="landingBenefits">
           <div className="landingBenefitCard landingBenefitCard-speed">
@@ -253,7 +260,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="landingFinalCta">
+      <section className="landingFinalCta" data-reveal>
         <h2>Ready to see yours?</h2>
         <p>Try it with an example résumé first — no account needed until you&apos;re ready to publish.</p>
         <Link href="/wizard/step-1-upload" className="landingCtaPrimary">

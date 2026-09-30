@@ -50,7 +50,7 @@ export default function ContactForm({ id, data }: { id: string; data: ContactFor
       <div className="mx-auto max-w-[1200px] px-5 py-11 sm:px-8 md:py-14">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
           <div>
-            <h2 className="text-2xl font-semibold text-ink-navy sm:text-3xl">{data.heading}</h2>
+            <h2 className="font-serif text-2xl font-semibold text-ink-navy sm:text-3xl">{data.heading}</h2>
             {data.supportingCopy && (
               <p className="mt-4 max-w-[50ch] text-sm leading-relaxed text-ink-body">
                 {data.supportingCopy}
@@ -140,7 +140,7 @@ export default function ContactForm({ id, data }: { id: string; data: ContactFor
           ) : (
             // No NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY configured — fall back to a
             // plain mailto: link instead of shipping a non-functional form.
-            <div className="flex flex-col items-start justify-center gap-4 rounded-[16px] border border-border bg-background p-6 sm:p-7">
+            <div className="flex flex-col items-start justify-center gap-4 bg-background p-6 sm:p-7 tplCard">
               <p className="text-sm leading-relaxed text-ink-body">
                 No contact form is configured yet. Set{" "}
                 <code className="rounded bg-surface px-1.5 py-0.5 text-xs">

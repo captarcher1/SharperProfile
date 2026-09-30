@@ -131,6 +131,14 @@ export default function Step3GeneratePage() {
         .map(([type]) => SECTION_META.get(type as SectionTypeId)?.label ?? type),
     [step3]
   );
+  // 2026-09-29 — backs the provider dropdown: `activeProvider` is whichever
+  // provider is currently selected (regardless of whether it's configured
+  // yet — see the dropdown's own comment below for why that's now allowed),
+  // and `configuredProviders` powers the small "already configured" summary
+  // line so switching the dropdown away from a provider doesn't hide the
+  // fact that it's still set up.
+  const activeProvider = useMemo(() => providers.find((p) => p.id === selectedProvider) ?? null, [providers, selectedProvider]);
+  const configuredProviders = useMemo(() => providers.filter((p) => p.configured), [providers]);
 
   /** What a section's form should show when there's no unsaved edit yet — the last-saved "ok" data, or an empty schema-shaped template. */
   function baselineFor(sectionType: SectionTypeId, state: Step3State | null): unknown {
@@ -417,80 +425,127 @@ export default function Step3GeneratePage() {
       {needsProvider && (
         <div className="card">
           <h2>Provider</h2>
-          <ul className="providerList">
+          {/* 2026-09-29 — replaced the always-all-expanded radio list with a
+              single dropdown + one visible config panel, per Pranay's
+              request ("keep the design cleaner"). Two real behavior changes,
+              not just a visual swap:
+              - The dropdown lets you pick ANY provider (configured or not)
+                to reveal its fields — the old radio was disabled until a
+                provider was already configured, which meant configuring one
+                and then selecting it for generation was two separate clicks.
+                Now picking it from the dropdown and configuring it is the
+                same action, and Generate unlocks the moment that selected
+                provider's key is actually saved — no extra click.
+              - Generate's guard now checks the SELECTED provider's own
+                `configured` flag (`activeProvider?.configured`) rather than
+                just "is something selected," since selecting is no longer
+                proof of being configured the way checking a disabled-until-
+                configured radio used to be. Same safety guarantee as
+                before — you still can't generate with an unconfigured
+                provider — just derived correctly for the new control. */}
+          <label className="fieldLabel" htmlFor="provider-select">
+            Choose a provider
+          </label>
+          <select
+            id="provider-select"
+            className="providerSelect"
+            value={selectedProvider ?? ""}
+            onChange={(e) => setSelectedProvider((e.target.value || null) as ProviderName | null)}
+          >
+            <option value="" disabled>
+              Select a provider…
+            </option>
             {providers.map((p) => (
-              <li key={p.id} className={`providerRow ${p.configured ? "providerReady" : ""}`}>
-                <label className="providerLabel hasTip" data-tip={p.helpText}>
-                  <input
-                    type="radio"
-                    name="provider"
-                    checked={selectedProvider === p.id}
-                    disabled={!p.configured}
-                    onChange={() => setSelectedProvider(p.id)}
-                  />
-                  <span>
-                    <span className="sectionTitle">
-                      {p.label}
+              <option key={p.id} value={p.id}>
+                {p.label} — {p.configured ? "Configured" : "Not configured"}
+              </option>
+            ))}
+          </select>
+
+          {configuredProviders.length > 0 && (
+            <p className="meta providerConfiguredNote">
+              Already configured: {configuredProviders.map((p) => p.label).join(", ")}.
+            </p>
+          )}
+
+          {activeProvider && (
+            <div className={`providerPanel providerRow ${activeProvider.configured ? "providerReady" : ""}`}>
+              <div className="sectionTitleRow">
+                <span className="sectionTitle hasTip" data-tip={activeProvider.helpText}>
+                  {activeProvider.label}
+                  <span className="tipIcon" aria-hidden="true">
+                    ?
+                  </span>
+                </span>
+                <span className={`badge ${activeProvider.configured ? "badgeAi" : "badgeAuto"}`}>
+                  {activeProvider.configured ? "Configured" : "Not configured"}
+                </span>
+              </div>
+
+              <div className="providerConfigure">
+                <input
+                  type={activeProvider.fieldKind === "apiKey" ? "password" : "text"}
+                  placeholder={activeProvider.placeholder}
+                  value={credentialDrafts[activeProvider.id] ?? ""}
+                  onChange={(e) => setCredentialDrafts((d) => ({ ...d, [activeProvider.id]: e.target.value }))}
+                  disabled={credentialBusy[activeProvider.id]}
+                />
+                <button
+                  type="button"
+                  className="secondary"
+                  onClick={() => handleSaveCredential(activeProvider.id)}
+                  disabled={credentialBusy[activeProvider.id]}
+                >
+                  Save
+                </button>
+                {activeProvider.configured && (
+                  <button
+                    type="button"
+                    className="secondary"
+                    onClick={() => handleClearCredential(activeProvider.id)}
+                    disabled={credentialBusy[activeProvider.id]}
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              <p className="meta">{activeProvider.helpText}</p>
+              {credentialErrors[activeProvider.id] && <p className="error">{credentialErrors[activeProvider.id]}</p>}
+
+              {activeProvider.modelField && (
+                <>
+                  <div className="providerConfigure hasTip" data-tip={activeProvider.modelField.helpText}>
+                    <input
+                      type="text"
+                      placeholder={activeProvider.modelField.placeholder}
+                      value={modelDrafts[activeProvider.id] ?? ""}
+                      onChange={(e) => setModelDrafts((d) => ({ ...d, [activeProvider.id]: e.target.value }))}
+                      disabled={modelBusy[activeProvider.id]}
+                    />
+                    <button
+                      type="button"
+                      className="secondary"
+                      onClick={() => handleSaveModel(activeProvider.id)}
+                      disabled={modelBusy[activeProvider.id]}
+                    >
+                      {modelBusy[activeProvider.id] ? "Saving…" : "Save model"}
+                    </button>
+                  </div>
+                  <p className="meta">
+                    <span className="hasTip" data-tip={activeProvider.modelField.helpText}>
+                      {activeProvider.modelField.label}
                       <span className="tipIcon" aria-hidden="true">
                         ?
                       </span>
-                    </span>{" "}
-                    <span className={`badge ${p.configured ? "badgeAi" : "badgeAuto"}`}>
-                      {p.configured ? "Configured" : "Not configured"}
                     </span>
-                  </span>
-                </label>
-
-                <div className="providerConfigure hasTip" data-tip={p.helpText}>
-                  <input
-                    type={p.fieldKind === "apiKey" ? "password" : "text"}
-                    placeholder={p.placeholder}
-                    value={credentialDrafts[p.id] ?? ""}
-                    onChange={(e) => setCredentialDrafts((d) => ({ ...d, [p.id]: e.target.value }))}
-                    disabled={credentialBusy[p.id]}
-                  />
-                  <button type="button" className="secondary" onClick={() => handleSaveCredential(p.id)} disabled={credentialBusy[p.id]}>
-                    Save
-                  </button>
-                  {p.configured && (
-                    <button type="button" className="secondary" onClick={() => handleClearCredential(p.id)} disabled={credentialBusy[p.id]}>
-                      Clear
-                    </button>
-                  )}
-                </div>
-                <p className="meta">{p.helpText}</p>
-                {credentialErrors[p.id] && <p className="error">{credentialErrors[p.id]}</p>}
-
-                {p.modelField && (
-                  <>
-                    <div className="providerConfigure hasTip" data-tip={p.modelField.helpText}>
-                      <input
-                        type="text"
-                        placeholder={p.modelField.placeholder}
-                        value={modelDrafts[p.id] ?? ""}
-                        onChange={(e) => setModelDrafts((d) => ({ ...d, [p.id]: e.target.value }))}
-                        disabled={modelBusy[p.id]}
-                      />
-                      <button type="button" className="secondary" onClick={() => handleSaveModel(p.id)} disabled={modelBusy[p.id]}>
-                        {modelBusy[p.id] ? "Saving…" : "Save model"}
-                      </button>
-                    </div>
-                    <p className="meta">
-                      <span className="hasTip" data-tip={p.modelField.helpText}>
-                        {p.modelField.label}
-                        <span className="tipIcon" aria-hidden="true">
-                          ?
-                        </span>
-                      </span>
-                      : {p.modelField.helpText}
-                    </p>
-                    {modelErrors[p.id] && <p className="error">{modelErrors[p.id]}</p>}
-                    {!modelErrors[p.id] && modelSaved[p.id] && <p className="meta">Model saved.</p>}
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
+                    : {activeProvider.modelField.helpText}
+                  </p>
+                  {modelErrors[activeProvider.id] && <p className="error">{modelErrors[activeProvider.id]}</p>}
+                  {!modelErrors[activeProvider.id] && modelSaved[activeProvider.id] && <p className="meta">Model saved.</p>}
+                </>
+              )}
+            </div>
+          )}
         </div>
       )}
 
@@ -508,7 +563,7 @@ export default function Step3GeneratePage() {
             className="hasTip"
             data-tip="Regenerates every currently-selected section at once, using the provider chosen above — there's no partial/single-section regenerate yet. This replaces any existing draft content for those sections."
             onClick={handleGenerateClick}
-            disabled={generateBusy || (needsProvider && !selectedProvider)}
+            disabled={generateBusy || (needsProvider && !activeProvider?.configured)}
           >
             {generateBusy ? "Generating…" : confirmRegenerate ? "Confirm — replace current draft" : hasExistingDraft ? "Regenerate" : "Generate"}
           </button>
@@ -535,7 +590,10 @@ export default function Step3GeneratePage() {
             )}
           </div>
         )}
-        {needsProvider && !selectedProvider && <p className="error">Choose a configured provider above first.</p>}
+        {needsProvider && !activeProvider && <p className="error">Choose a provider above first.</p>}
+        {needsProvider && activeProvider && !activeProvider.configured && (
+          <p className="error">Add a valid key for {activeProvider.label} above before generating.</p>
+        )}
         {generateError && <p className="error">{generateError}</p>}
         {!generateBusy && !generateError && lastGenerateMs !== null && (
           <p className="meta">Generated in {formatElapsed(lastGenerateMs)}.</p>

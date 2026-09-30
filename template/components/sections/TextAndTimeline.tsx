@@ -20,13 +20,13 @@ export default function TextAndTimeline({
 
       {data.timeline && data.timeline.length > 0 && (
         <div className="mt-8">
-          <h3 className="text-lg font-semibold text-ink-navy">Timeline</h3>
+          <h3 className="font-serif text-lg font-semibold text-ink-navy">Timeline</h3>
           <ol className="mt-5 space-y-6 border-l border-border pl-6">
             {data.timeline.map((entry) => (
               <li key={`${entry.organization}-${entry.dates}`} className="relative">
                 <span className="absolute -left-[29px] top-1.5 h-2.5 w-2.5 rounded-full bg-accent" />
                 <p className="text-xs font-semibold tracking-wide text-ink-muted">{entry.dates}</p>
-                <p className="mt-1 text-base font-semibold text-ink-navy">
+                <p className="mt-1 font-serif text-base font-semibold text-ink-navy">
                   {entry.role} · {entry.organization}
                 </p>
                 {entry.description && (

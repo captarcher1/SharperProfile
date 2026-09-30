@@ -18,10 +18,7 @@ export default function TopicGrid({
         {data.map((item, index) => {
           const Icon = item.icon ? iconMap[item.icon] : undefined;
           return (
-            <div
-              key={item.topic}
-              className="relative overflow-hidden rounded-[16px] border border-border p-6 sm:p-7"
-            >
+            <div key={item.topic} className="relative overflow-hidden p-6 sm:p-7 tplCard">
               <CardWatermark title={item.topic} tintIndex={index + 1} />
               <div className="relative">
                 <div className="flex items-center gap-3">
@@ -30,7 +27,7 @@ export default function TopicGrid({
                       <Icon size={20} className="text-gray-700" aria-hidden="true" />
                     </span>
                   )}
-                  <h3 className="text-lg font-semibold text-ink-navy">{item.topic}</h3>
+                  <h3 className="font-serif text-lg font-semibold text-ink-navy">{item.topic}</h3>
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-ink-body">{item.angle}</p>
               </div>

@@ -41,7 +41,7 @@ export default function ProcessSteps({
           const Icon = item.icon ? iconMap[item.icon] : undefined;
           return (
             <div key={item.step} className="flex flex-1 items-start gap-3">
-              <div className="relative flex-1 overflow-hidden rounded-[16px] border border-border p-6 sm:p-7">
+              <div className="relative flex-1 overflow-hidden p-6 sm:p-7 tplCard">
                 {/* Offset by 3 so this section's hues differ from other card sections */}
                 <CardWatermark title={item.step} tintIndex={index + 3} />
                 <div className="relative">
@@ -51,7 +51,7 @@ export default function ProcessSteps({
                         <Icon size={20} className="text-gray-700" aria-hidden="true" />
                       </span>
                     )}
-                    <p className="text-lg font-semibold text-ink-navy">{item.step}</p>
+                    <p className="font-serif text-lg font-semibold text-ink-navy">{item.step}</p>
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-ink-body">{item.copy}</p>
                 </div>

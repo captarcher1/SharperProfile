@@ -10,10 +10,10 @@ export default function Metrics({
   data: MetricsData;
 }) {
   return (
-    <section id={id} className="bg-black">
-      <div className="mx-auto max-w-[1200px] px-5 py-10 sm:px-8 md:py-12">
+    <section id={id} style={{ background: "var(--ink-deep)" }}>
+      <div className="mx-auto max-w-[1200px] px-5 py-12 sm:px-8 md:py-16">
         {heading && (
-          <h2 className="mb-6 text-2xl font-semibold text-white sm:text-3xl">{heading}</h2>
+          <h2 className="mb-8 font-serif text-2xl font-semibold text-white sm:text-3xl">{heading}</h2>
         )}
         <div className="grid grid-cols-2 gap-5 lg:grid-cols-4 lg:gap-8">
           {data.map((m) => (

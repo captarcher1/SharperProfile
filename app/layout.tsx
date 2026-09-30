@@ -4,6 +4,7 @@ import "./globals.css";
 import { PRODUCT_NAME } from "@/lib/productName";
 import { SiteHeaderName } from "@/components/SiteHeaderName";
 import { HomeLink } from "@/components/HomeLink";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 export const metadata: Metadata = {
   title: PRODUCT_NAME,
@@ -13,6 +14,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        {/* Tiny, synchronous, blocking on purpose — see globals.css's
+            `html.js [data-reveal]` comment. Runs before first paint, so
+            there's no flash of hidden-then-shown content for JS users, and
+            no permanently-blank sections for anyone without JS. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <header className="siteHeader">
           <div className="siteHeaderInner">
@@ -42,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </nav>
           </div>
         </header>
+        <ScrollReveal />
         {children}
         <footer className="siteFooter">
           <div className="siteFooterInner">

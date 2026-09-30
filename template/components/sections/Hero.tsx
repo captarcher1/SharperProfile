@@ -19,7 +19,7 @@ export default function Hero({ id, data }: { id: string; data: HeroData }) {
         {data.eyebrow && (
           <p className="text-sm font-semibold tracking-[0.14em] text-accent">{data.eyebrow}</p>
         )}
-        <h1 className="mt-3 text-[40px] leading-[1.08] font-semibold tracking-tight text-ink-navy sm:text-[48px] lg:text-[62px] lg:leading-[1.05] xl:text-[70px]">
+        <h1 className="mt-3 font-serif text-[40px] leading-[1.08] font-semibold tracking-tight text-ink-navy sm:text-[48px] lg:text-[62px] lg:leading-[1.05] xl:text-[70px]">
           {data.headline}
         </h1>
         {data.supportingCopy && (
@@ -32,7 +32,7 @@ export default function Hero({ id, data }: { id: string; data: HeroData }) {
             {data.primaryCta && (
               <a
                 href={data.primaryCta.href}
-                className="inline-flex h-12 items-center justify-center rounded-full bg-ink-navy px-6 text-sm font-medium text-white transition-colors hover:bg-accent"
+                className="inline-flex h-12 items-center justify-center rounded-full bg-ink-navy px-6 text-sm font-medium text-white transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-accent hover:shadow-lg"
               >
                 {data.primaryCta.label}
               </a>
@@ -40,7 +40,7 @@ export default function Hero({ id, data }: { id: string; data: HeroData }) {
             {data.secondaryCta && (
               <a
                 href={data.secondaryCta.href}
-                className="inline-flex h-12 items-center justify-center rounded-full bg-surface px-6 text-sm font-medium text-ink-navy transition-colors hover:bg-border"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-surface px-6 text-sm font-medium text-ink-navy transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-accent"
               >
                 {data.secondaryCta.label}
               </a>
@@ -51,7 +51,7 @@ export default function Hero({ id, data }: { id: string; data: HeroData }) {
 
       <div className="order-1 flex flex-col items-center lg:order-2 lg:items-end">
         <div className="flex w-48 flex-col items-center sm:w-64 lg:w-72">
-          <div className="relative h-48 w-48 overflow-hidden rounded-[16px] border border-border bg-surface sm:h-64 sm:w-64 lg:h-72 lg:w-72">
+          <div className="relative h-48 w-48 overflow-hidden bg-surface sm:h-64 sm:w-64 lg:h-72 lg:w-72 tplCard">
             {headshot ? (
               <Image
                 src={headshot}
@@ -71,7 +71,7 @@ export default function Hero({ id, data }: { id: string; data: HeroData }) {
             )}
           </div>
 
-          <p className="mt-4 text-center text-[18px] font-semibold text-ink-navy">{name}</p>
+          <p className="mt-4 text-center font-serif text-[18px] font-semibold text-ink-navy">{name}</p>
           <p className="text-center text-sm text-ink-muted">{role}</p>
 
           <div className="mt-4 flex items-center justify-center gap-3">

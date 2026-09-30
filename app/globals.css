@@ -1,38 +1,78 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap");
 
-/* 2026-09-28 — color palette + typography below are taken directly from the
-   "ledger/editorial" design system in Pranay's own reference file
-   (household-portfolio-dashboard_asof_20260904.html, supplied as the template
-   for "the UX changes as we discussed"). Every hex value here is copied
-   verbatim from that file's own :root block — nothing here is a fresh
-   invention or a guess at what "the color theme" meant. Old token names are
-   kept (so every existing component keeps working unchanged) but now point
-   at the reference file's real values; a few new tokens (ink-faint, rule-soft,
-   the green/red/brass soft-background shades, and the serif/sans font stacks)
-   are added below for the left-border "status" coding used on the landing
-   page's benefit cards. */
+/* ============================================================
+   2026-09-29 — "Editorial Luxury" redesign.
+
+   Full-app visual system change, requested and scoped by Pranay after
+   installing the `taste-skill` framework (github.com/Leonxlnx/taste-skill)
+   and choosing its `high-end-visual-design` skill's "Editorial Luxury"
+   vibe archetype, applied everywhere (landing page + all 4 wizard steps +
+   help), combined with `redesign-existing-projects`'s incremental audit
+   discipline (work with the existing stack, keep every class name and
+   every existing behavior working, no new dependencies).
+
+   What changed and why:
+   - Palette moved from the cool cream/slate "ledger" system (#e8ecee bg,
+     #0f6e5c green) to a warmer cream/sage/espresso system — the same
+     "editorial ledger" spirit, pushed toward the skill's Editorial Luxury
+     archetype (warm paper tone, muted sage, high-contrast serif). The old
+     token NAMES are all kept (nothing downstream needed to change), only
+     their values move.
+   - Font swap: Inter → Geist. `high-end-visual-design` explicitly bans
+     Inter/Roboto/Arial/Open Sans/Helvetica; Geist is both one of its
+     approved alternatives and the font Next.js/Vercel ship by default —
+     a fitting pairing for a tool that publishes to Vercel. Charter (the
+     serif for headings) is NOT on the ban list and already matches the
+     skill's own "pair a serif header with a sans body" guidance, so it's
+     kept rather than replaced, per redesign-skill's "work with what's
+     already right" instinct.
+   - "Double-Bezel" (Doppelrand) card architecture: implemented with ZERO
+     markup changes, via a thick border painted the same color as the page
+     background (so it reads as a picture-frame mat, not a stroke) plus a
+     soft ambient shadow and a hairline at the outer edge to keep the shape
+     legible. Every existing `.card`/benefit-card/screenshot-card usage
+     gets this automatically.
+   - Macro whitespace, a shared spring easing token, a body-level paper-
+     grain texture (inline SVG noise, no image asset, no JS), and a
+     `data-reveal` scroll-in mechanic (see the small script in
+     app/layout.tsx — no framer-motion/gsap in this stack, so it's plain
+     IntersectionObserver).
+   - Every existing selector, animation, and disabled/hover/focus state
+     below is preserved — this is a re-skin, not a rebuild. Where a
+     mechanic's own rationale is still true verbatim, that comment is kept;
+     only superseded "what the colors mean" framing has been updated. */
 :root {
   color-scheme: light;
-  --bg: #e8ecee; /* was #f7f7f5 — reference's --paper */
-  --surface: #ffffff; /* reference's --panel (unchanged value) */
-  --border: #c4d0d7; /* was #e2e0da — reference's --rule */
-  --border-soft: #dde4e8; /* reference's --rule-soft */
-  --text: #14202b; /* was #1c1b19 — reference's --ink */
-  --text-muted: #42535f; /* was #6b6a66 — reference's --ink-soft */
-  --text-faint: #7a8994; /* reference's --ink-faint */
-  --accent: #0f6e5c; /* was #2f6f4f — reference's --green (the "good/action" color) */
-  --accent-text: #ffffff;
-  --error: #a93b33; /* was #b3261e — reference's --red */
-  --warning-bg: #f1e4c8; /* was #fff6e5 — reference's --brass-soft */
-  --warning-border: #9a6f1e; /* was #e8c877 — reference's --brass */
-  /* Structural/neutral blue — used for the landing flow diagram and for
-     anything that isn't an explicit "good/attention/opportunity" call-out. */
-  --accent-blue: #2c5578; /* was #2b4a7d — reference's --blue, verbatim */
-  --green-soft: #d6e7e2;
-  --red-soft: #f0dcd9;
+  --bg: #f4eee2; /* warm paper — was #e8ecee (cool cream) */
+  --bg-deep: #ece3d2; /* a shade deeper than --bg; used for the double-bezel "frame" ring so it reads against pure-white cards */
+  --surface: #fffdf9; /* was pure #ffffff — a whisper of warmth so it doesn't look sterile against the cream */
+  --border: #d9cbae; /* was #c4d0d7 (cool grey) — warm bronze-grey */
+  --border-soft: #e8ddc6; /* was #dde4e8 */
+  --text: #2a2018; /* espresso — was #14202b (cool navy-black) */
+  --text-muted: #5c5040; /* was #42535f */
+  --text-faint: #8a7d68; /* was #7a8994 */
+  --accent: #3f5b4a; /* deep sage/pine, evolved from the old #0f6e5c — same "good/action" role, warmer family */
+  --accent-soft: #dfe6da; /* pale sage tint, for hovers/soft backgrounds */
+  --accent-text: #fffdf9;
+  --error: #8f3b2c; /* was #a93b33 — warmed to sit in the same family as the rest of the palette */
+  --warning-bg: #f1e4c8; /* unchanged — this was already a warm brass tone, already on-archetype */
+  --warning-border: #9a6f1e; /* unchanged */
+  /* Old --accent-blue "structural/neutral" role, re-cast as a warm bronze
+     rather than a cool blue — Editorial Luxury is explicitly a
+     cream/sage/espresso palette, so a cold blue was the one hold-over from
+     the previous system that didn't belong. Same job (privacy card,
+     landing flow-diagram), new family. */
+  --accent-blue: #7a6a4a;
+  --green-soft: #dfe6da;
+  --red-soft: #ecdcd4;
   --brass-soft: #f1e4c8;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   --font-serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  /* Shared motion + spacing tokens for the redesign. */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --bezel: 9px; /* the double-bezel "frame" thickness, see .card etc. below */
+  --radius-card: 26px;
 }
 
 * {
@@ -45,29 +85,59 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   line-height: 1.5;
+  position: relative;
+}
+
+/* Paper-grain texture — a tiny inline SVG noise pattern, tiled over the
+   whole page at very low opacity. Fixed + pointer-events:none so it never
+   intercepts clicks or scrolls with the page (a single static layer, not
+   per-section), and mix-blend-mode:overlay so it reads as texture on the
+   paper rather than a visible grey haze. No image asset, no JS, costs
+   nothing at runtime beyond one repeated tiny background. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 120px 120px;
 }
 
 /* 2026-09-28 — sticky so the product name + Home/Help links stay visible
    while scrolling any page (landing included), per Pranay's request. Sticky
    rather than fixed: it stays in normal document flow, so no page needs
    extra top padding to compensate — it just pins once the page scrolls past
-   it. z-index keeps it above the landing page's flow-diagram/section content. */
+   it. z-index keeps it above the landing page's flow-diagram/section content.
+
+   2026-09-29 — re-treated as a "Fluid Island": a floating pill inset from
+   the page edge with its own rounded shell and soft shadow, rather than a
+   full-bleed bar. Still the same sticky/flex mechanics; no JS changed. */
 .siteHeader {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
   z-index: 50;
+  background: transparent;
+  border-bottom: none;
+  padding: 14px 16px 0;
 }
 
 .siteHeaderInner {
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
-  padding: 16px 24px;
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  background: rgba(255, 253, 249, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  box-shadow: 0 8px 24px -12px rgba(42, 32, 24, 0.18);
 }
 
 /* 2026-09-28 — the name is now a real link (components/SiteHeaderName.tsx),
@@ -81,27 +151,32 @@ body {
 .siteHeaderName {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   letter-spacing: -0.01em;
   color: var(--text);
   text-decoration: none;
   display: inline-block;
-  border: 4px solid var(--accent);
-  border-radius: 10px;
-  padding: 4px 14px;
-  background: var(--surface);
+  border: none;
+  border-radius: 999px;
+  padding: 4px 4px;
+  background: transparent;
   cursor: pointer;
+  transition: color 0.2s var(--ease-smooth);
+}
+
+.siteHeaderName:hover {
+  color: var(--accent);
 }
 
 .siteHeaderNameConfirm {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 14px);
   left: 0;
   z-index: 60;
   width: max-content;
   max-width: 340px;
   margin-bottom: 0;
-  box-shadow: 0 8px 24px rgba(20, 32, 43, 0.16);
+  box-shadow: 0 8px 24px rgba(42, 32, 24, 0.16);
 }
 
 .siteHeaderNameConfirm .actions {
@@ -115,28 +190,30 @@ body {
 }
 
 .siteHeaderHome {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   color: var(--accent);
   text-decoration: none;
+  transition: opacity 0.2s ease;
 }
 
 .siteHeaderHome:hover {
+  opacity: 0.7;
   text-decoration: underline;
 }
 
 /* Site-wide footer (2026-09-28) — attribution + AI-accuracy disclaimer,
    rendered once in app/layout.tsx so it appears under every page. */
 .siteFooter {
-  border-top: 1px solid var(--border);
-  background: var(--surface);
-  margin-top: 48px;
+  border-top: 1px solid var(--border-soft);
+  background: transparent;
+  margin-top: 64px;
 }
 
 .siteFooterInner {
   max-width: 720px;
   margin: 0 auto;
-  padding: 24px 24px 32px;
+  padding: 32px 24px 40px;
 }
 
 .siteFooterAttribution {
@@ -156,36 +233,50 @@ body {
 .page {
   max-width: 720px;
   margin: 0 auto;
-  padding: 48px 24px 96px;
+  padding: 56px 24px 112px;
 }
 
 h1 {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1.75rem;
-  letter-spacing: -0.015em;
-  margin-bottom: 8px;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 10px;
 }
 
 h2 {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   letter-spacing: -0.01em;
   margin-top: 0;
 }
 
 .lede {
   color: var(--text-muted);
-  margin-bottom: 32px;
+  margin-bottom: 40px;
+  font-size: 1.05rem;
+  line-height: 1.6;
 }
 
+/* "Double-Bezel" card — a thick border painted the same tone as the page
+   background (--bg-deep, a shade deeper than --bg so it's visible against
+   both the page AND the white surface it frames) reads as a picture-frame
+   mat rather than a stroke; the hairline box-shadow keeps its outer edge
+   legible where it sits over --bg itself. Zero markup changes — every
+   existing `.card` div in the app gets this automatically. */
 .card {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 24px;
-  margin-bottom: 24px;
+  border: var(--bezel) solid var(--bg-deep);
+  border-radius: var(--radius-card);
+  padding: 28px 30px;
+  margin-bottom: 28px;
+  box-shadow:
+    0 0 0 1px var(--border-soft),
+    0 1px 2px rgba(42, 32, 24, 0.04),
+    0 20px 44px -22px rgba(42, 32, 24, 0.18);
+  transition: box-shadow 0.35s var(--ease-smooth), transform 0.35s var(--ease-smooth);
 }
 
 .fieldLabel {
@@ -204,8 +295,8 @@ h2 {
 
 button {
   font: inherit;
-  padding: 10px 18px;
-  border-radius: 4px;
+  padding: 11px 20px;
+  border-radius: 999px;
   border: 1px solid var(--accent);
   background: var(--accent);
   color: var(--accent-text);
@@ -225,16 +316,33 @@ button:disabled {
    CTAs, small icon buttons) rather than one-off per component. Excluded:
    `.tagChip button` (the tiny "×" remove glyph inside a tag chip) — that one
    is deliberately background:none/border:none to blend into the chip, and a
-   shadow under a bare "×" would look like a stray artifact, not a button. */
+   shadow under a bare "×" would look like a stray artifact, not a button.
+
+   2026-09-29 — press physics unchanged; easing swapped to the shared
+   spring token and a gentle hover lift added (a restrained stand-in for the
+   skill's "magnetic button" — a true JS pointer-follow effect was judged
+   too risky to bolt onto form-critical controls like Save/Publish, so this
+   keeps the tactile "alive" feeling via CSS alone). */
 button,
 .linkButton,
 .landingCtaPrimary,
 .landingCtaSecondary,
 .iconButton {
   box-shadow:
-    0 3px 0 rgba(20, 32, 43, 0.25),
-    0 4px 8px rgba(20, 32, 43, 0.12);
-  transition: box-shadow 0.1s ease, transform 0.1s ease;
+    0 3px 0 rgba(42, 32, 24, 0.22),
+    0 4px 8px rgba(42, 32, 24, 0.12);
+  transition: box-shadow 0.2s var(--ease-spring), transform 0.2s var(--ease-spring);
+}
+
+button:not(:disabled):hover,
+.linkButton:not(.disabled):hover,
+.landingCtaPrimary:hover,
+.landingCtaSecondary:hover,
+.iconButton:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 0 rgba(42, 32, 24, 0.22),
+    0 10px 20px -6px rgba(42, 32, 24, 0.22);
 }
 
 button:not(:disabled):active,
@@ -242,11 +350,16 @@ button:not(:disabled):active,
 .landingCtaPrimary:active,
 .landingCtaSecondary:active,
 .iconButton:not(:disabled):active {
-  box-shadow: 0 1px 0 rgba(20, 32, 43, 0.25);
+  box-shadow: 0 1px 0 rgba(42, 32, 24, 0.25);
   transform: translateY(2px);
 }
 
 .tagChip button {
+  box-shadow: none;
+  transform: none;
+}
+
+.tagChip button:hover {
   box-shadow: none;
   transform: none;
 }
@@ -318,8 +431,8 @@ button.secondary {
 .warnings {
   background: var(--warning-bg);
   border: 1px solid var(--warning-border);
-  border-radius: 8px;
-  padding: 12px 16px;
+  border-radius: 14px;
+  padding: 14px 18px;
   margin-bottom: 16px;
 }
 
@@ -376,8 +489,8 @@ button.secondary {
 
 .linkButton {
   font: inherit;
-  padding: 10px 18px;
-  border-radius: 4px;
+  padding: 11px 20px;
+  border-radius: 999px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
@@ -395,14 +508,14 @@ button.secondary {
   cursor: not-allowed;
 }
 
-/* Wizard step-progress indicator — top of all 3 wizard pages */
+/* Wizard step-progress indicator — top of all 4 wizard pages */
 .wizardSteps {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   row-gap: 8px;
   list-style: none;
-  margin: 0 0 28px;
+  margin: 0 0 32px;
   padding: 0;
 }
 
@@ -417,14 +530,15 @@ button.secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 999px;
   border: 1px solid var(--border);
   font-size: 0.8rem;
   font-weight: 600;
   flex-shrink: 0;
   background: var(--surface);
+  transition: background 0.2s var(--ease-smooth), border-color 0.2s var(--ease-smooth);
 }
 
 .wizardStepLabel {
@@ -484,7 +598,7 @@ button.secondary {
   background: var(--warning-bg);
 }
 
-/* Save/Export + Import toolbar (B5/B6), shown under the step breadcrumb on all 3 wizard pages.
+/* Save/Export + Import toolbar (B5/B6), shown under the step breadcrumb on all 4 wizard pages.
    2026-09-28: visually muted relative to the stepper above it — it was
    flagged as competing for attention right from Step 1, before there's
    anything to export yet. Smaller and quieter, not hidden — every control
@@ -493,7 +607,7 @@ button.secondary {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
-  margin: 0 0 24px;
+  margin: 0 0 28px;
 }
 
 .wizardToolbarMuted {
@@ -523,7 +637,7 @@ button.secondary {
 
 .linkButton.small,
 button.small {
-  padding: 6px 12px;
+  padding: 7px 14px;
   font-size: 0.85rem;
 }
 
@@ -538,15 +652,21 @@ button.small {
 }
 
 .sectionRow + .sectionRow {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border-soft);
 }
 
 .sectionLabel {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px 4px;
+  padding: 14px 6px;
   cursor: pointer;
+  border-radius: 12px;
+  transition: background 0.2s var(--ease-smooth);
+}
+
+.sectionLabel:hover {
+  background: var(--accent-soft);
 }
 
 .sectionLabel input[type="checkbox"] {
@@ -554,6 +674,7 @@ button.small {
   flex-shrink: 0;
   width: 18px;
   height: 18px;
+  accent-color: var(--accent);
 }
 
 .sectionText {
@@ -581,8 +702,8 @@ button.small {
 .badge {
   font-size: 0.72rem;
   font-weight: 600;
-  padding: 2px 8px;
-  border-radius: 2px;
+  padding: 3px 9px;
+  border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -593,7 +714,7 @@ button.small {
 }
 
 .badgeAuto {
-  background: #eeece5;
+  background: var(--border-soft);
   color: var(--text-muted);
 }
 
@@ -614,7 +735,7 @@ button.small {
   height: 192px;
   flex-shrink: 0;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 20px;
   border: 1px solid var(--border);
   background: var(--surface);
   display: flex;
@@ -652,8 +773,9 @@ button.small {
 
 .providerRow {
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px 16px;
+  border-radius: 16px;
+  padding: 14px 18px;
+  transition: border-color 0.2s var(--ease-smooth);
 }
 
 .providerRow.providerReady {
@@ -677,15 +799,59 @@ button.small {
 .providerConfigure input {
   flex: 1;
   min-width: 200px;
-  padding: 8px 10px;
-  border-radius: 6px;
+  padding: 9px 12px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   font: inherit;
+  background: var(--surface);
+}
+
+/* 2026-09-29 — Step 3's provider dropdown, replacing the always-all-
+   expanded radio list (see step-3-generate/page.tsx's own comment). A
+   plain native <select>, not a custom popover: it's fully accessible and
+   needs no new dependency, at the cost of the open option list looking
+   like the browser's own menu rather than a fully custom-styled one — a
+   restrained, common trade-off. `appearance: none` plus a hand-drawn
+   arrow keeps the closed control itself on-system. */
+.providerSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  padding: 11px 40px 11px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'><path d='M1 1l6 6 6-6' stroke='%235c5040' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth);
+}
+
+.providerSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.providerConfiguredNote {
+  margin-top: 10px;
+}
+
+/* The single revealed provider panel — reuses .providerRow's own border/
+   radius/padding (still one row wide, just the only one on screen now),
+   with extra top margin to separate it from the dropdown above. */
+.providerPanel {
+  margin-top: 20px;
 }
 
 .reviewBlock {
-  border-top: 1px solid var(--border);
-  padding: 16px 0;
+  border-top: 1px solid var(--border-soft);
+  padding: 18px 0;
 }
 
 .reviewBlock:first-of-type {
@@ -719,13 +885,21 @@ button.small {
 
 .formField input[type="text"],
 .formField textarea {
-  padding: 8px 10px;
-  border-radius: 6px;
+  padding: 9px 12px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   font: inherit;
   background: var(--surface);
   color: var(--text);
   width: 100%;
+  transition: border-color 0.2s var(--ease-smooth), box-shadow 0.2s var(--ease-smooth);
+}
+
+.formField input[type="text"]:focus,
+.formField textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 .formField textarea {
@@ -750,6 +924,10 @@ button.small {
   cursor: pointer;
 }
 
+.checkboxRow input {
+  accent-color: var(--accent);
+}
+
 .linkFieldRow {
   display: flex;
   gap: 8px;
@@ -760,10 +938,11 @@ button.small {
 .linkFieldRow input {
   flex: 1;
   min-width: 160px;
-  padding: 8px 10px;
-  border-radius: 6px;
+  padding: 9px 12px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   font: inherit;
+  background: var(--surface);
 }
 
 .tagList {
@@ -772,8 +951,8 @@ button.small {
   gap: 6px;
   align-items: center;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 8px;
+  border-radius: 12px;
+  padding: 7px 9px;
   background: var(--surface);
 }
 
@@ -781,10 +960,10 @@ button.small {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: var(--bg);
-  border: 1px solid var(--border);
+  background: var(--accent-soft);
+  border: 1px solid var(--border-soft);
   border-radius: 999px;
-  padding: 2px 4px 2px 10px;
+  padding: 3px 4px 3px 12px;
   font-size: 0.85rem;
 }
 
@@ -816,8 +995,8 @@ button.small {
 
 .itemCard {
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 14px;
+  padding: 14px;
   background: var(--bg);
   display: flex;
   flex-direction: column;
@@ -844,7 +1023,7 @@ button.small {
 
 .iconButton {
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
@@ -904,10 +1083,10 @@ button.small {
   bottom: calc(100% + 8px);
   width: max-content;
   max-width: 320px;
-  padding: 8px 10px;
-  border-radius: 8px;
-  background: #1c1b19;
-  color: #f7f7f5;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: #2a2018;
+  color: #f4eee2;
   font-size: 0.8rem;
   font-weight: 400;
   line-height: 1.4;
@@ -917,45 +1096,81 @@ button.small {
 }
 
 /* ============================================================
-   Landing page (app/page.tsx) — 2026-09-28 rebuild.
+   Scroll-in reveal — 2026-09-29. Plain IntersectionObserver (see the
+   small script in app/layout.tsx); no framer-motion/gsap in this stack.
+   Elements start in the "before" state and get `.is-visible` added once
+   they cross the viewport threshold.
+
+   Progressive enhancement, deliberately: the hidden (opacity:0) state is
+   scoped under `html.js` rather than applied unconditionally, and `.js` is
+   only added by a tiny blocking inline script in the document head (see
+   app/layout.tsx). If JavaScript is disabled, blocked, or errors before
+   that class is added, every section renders fully visible immediately —
+   a content page must never depend on JS just to become visible. This was
+   caught by actually screenshotting the built page (Playwright, no manual
+   scroll) rather than by inspection: without this guard, every section
+   below the first viewport rendered as permanent blank space, since the
+   IntersectionObserver only fires once an element has genuinely crossed
+   the visible viewport at least once. */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease-smooth), transform 0.7s var(--ease-smooth);
+}
+
+/* Specificity note: this must equal-or-beat `html.js [data-reveal]` above
+   (0,2,1) or the hidden rule wins the cascade regardless of the
+   `.is-visible` class ever being added — caught by an actual Playwright
+   scroll-through of the built page, where every reveal section stayed
+   permanently blank even after the observer had fired and added the class. */
+html.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   Landing page (app/page.tsx) — 2026-09-29 "Editorial Luxury" pass.
    Scoped under .landing so nothing here leaks into the wizard's
    own .page/.card layout, which stays at its narrower 720px width.
+   Layout archetype: Editorial Split — the hero and "why this" sections
+   break from the centered column into an asymmetric two-up split; the
+   flow diagram and benefit cards keep their existing grid mechanics.
    ============================================================ */
 
 .landing {
-  max-width: 1100px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding: 0 24px 96px;
+  padding: 0 24px 120px;
 }
 
 .landingHero {
-  padding: 72px 0 56px;
+  padding: 96px 0 72px;
   text-align: center;
 }
 
 .landingEyebrow {
   display: inline-block;
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .landingHero h1 {
-  font-size: clamp(1.85rem, 3.8vw, 2.85rem);
-  line-height: 1.15;
-  max-width: 780px;
-  margin: 0 auto 20px;
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+  line-height: 1.12;
+  max-width: 820px;
+  margin: 0 auto 22px;
 }
 
 .landingHeroSub {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--text-muted);
-  max-width: 620px;
-  margin: 0 auto 32px;
-  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 auto 36px;
+  line-height: 1.65;
 }
 
 .landingCtaRow {
@@ -968,8 +1183,8 @@ button.small {
 .landingCtaPrimary {
   font: inherit;
   font-weight: 600;
-  padding: 14px 26px;
-  border-radius: 4px;
+  padding: 15px 30px;
+  border-radius: 999px;
   border: 1px solid var(--accent);
   background: var(--accent);
   color: var(--accent-text);
@@ -980,8 +1195,8 @@ button.small {
 
 .landingCtaSecondary {
   font: inherit;
-  padding: 14px 22px;
-  border-radius: 4px;
+  padding: 15px 26px;
+  border-radius: 999px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
@@ -996,16 +1211,16 @@ button.small {
    wall. Source: the `simple-icons` npm package (real, version-checked against
    the live registry before use), never hand-traced or invented. */
 .landingLogos {
-  padding: 28px 0 48px;
+  padding: 36px 0 60px;
   text-align: center;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .landingLogosLabel {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: var(--text-muted);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .landingLogoRow {
@@ -1022,12 +1237,13 @@ button.small {
   height: 28px;
   width: auto;
   color: var(--text-muted);
-  opacity: 0.75;
-  transition: opacity 0.15s ease;
+  opacity: 0.7;
+  transition: opacity 0.2s var(--ease-smooth), transform 0.2s var(--ease-spring);
 }
 
 .landingLogo:hover {
   opacity: 1;
+  transform: translateY(-2px);
 }
 
 .landingLogo svg {
@@ -1039,42 +1255,52 @@ button.small {
 
 /* Screenshot proof section */
 .landingSection {
-  padding: 64px 0;
+  padding: 88px 0;
 }
 
 .landingSection h2 {
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   text-align: center;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
 }
 
 .landingSectionSub {
   text-align: center;
   color: var(--text-muted);
-  max-width: 560px;
-  margin: 0 auto 40px;
+  max-width: 580px;
+  margin: 0 auto 48px;
   line-height: 1.6;
 }
 
 .landingShotGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
 .landingShotCard {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  border: var(--bezel) solid var(--bg-deep);
+  border-radius: 22px;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(20, 32, 43, 0.06);
+  box-shadow:
+    0 0 0 1px var(--border-soft),
+    0 20px 44px -22px rgba(42, 32, 24, 0.2);
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-smooth);
+}
+
+.landingShotCard:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 1px var(--border-soft),
+    0 28px 56px -20px rgba(42, 32, 24, 0.26);
 }
 
 .landingShotChrome {
   display: flex;
   gap: 6px;
   padding: 10px 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-soft);
 }
 
 .landingShotDot {
@@ -1108,7 +1334,7 @@ button.small {
 .landingShotSourceLink {
   display: block;
   text-align: center;
-  margin-top: 24px;
+  margin-top: 28px;
   font-size: 0.9rem;
 }
 
@@ -1125,21 +1351,12 @@ button.small {
      `landingFlowIconOn`, staggered 2.1s apart via animation-delay.
    - Each arrow is "on" (visible + marching) for one quarter too —
      `landingFlowArrowOn`, phase-shifted 1.05s after its origin icon's own
-     delay, so it starts partway through that icon's lit window (matching
-     "the arrow starts while the icon is still highlighted") and keeps
+     delay, so it starts partway through that icon's lit window and keeps
      marching through the *next* icon's lit window until the *following*
-     arrow takes over (matching "arrow N+1 starts, arrow N stops" as one
-     paired event). The last arrow (3→4) has no arrow to hand off to, so it
-     simply finishes on its own, leaving icon 4 lit alone for the final
-     quarter — an arrow-free hold before the loop restarts, mirroring icon
-     1's own opening hold.
-   One small, disclosed judgment call: the spec describes the very last
-   handoff (arrow 3→4 starting) as exactly simultaneous with the icon 3→4
-   focus shift, but every earlier arrow in the sequence starts a beat before
-   its icon's own handoff. Arrow 3 follows that same beat-before pattern here
-   too, so the whole diagram keeps one consistent rhythm rather than a
-   one-off exception on the last step — flag this if the exact-simultaneous
-   version is what you actually want instead. */
+     arrow takes over. The last arrow (3→4) has no arrow to hand off to, so
+     it simply finishes on its own, leaving icon 4 lit alone for the final
+     quarter. Colors below re-cast onto the warm palette; timing/mechanics
+     unchanged from the 2026-09-28 build. */
 .landingFlow {
   position: relative;
   display: grid;
@@ -1148,9 +1365,6 @@ button.small {
   margin-top: 16px;
 }
 
-/* Each arrow is inset by the icon's own radius (28px) on both ends via
-   calc(), so it starts/ends in the gap between circles rather than running
-   underneath them, regardless of the container's actual rendered width. */
 .landingFlowConnectors {
   position: absolute;
   top: 27px;
@@ -1168,11 +1382,6 @@ button.small {
   background-image: repeating-linear-gradient(to right, var(--accent-blue) 0 8px, transparent 8px 16px);
   background-size: 32px 2px;
   background-repeat: repeat-x;
-  /* Base opacity 0: invisible until its own landingFlowArrowOn delay elapses
-     (animation-fill-mode defaults to "none", so the base style — not the 0%
-     keyframe — applies during that delay). landingFlowDash is the always-
-     running dash-march; landingFlowArrowOn is the on/off gate layered on
-     top of it. */
   opacity: 0;
   animation:
     landingFlowDash 1s linear infinite,
@@ -1218,9 +1427,6 @@ button.small {
   }
 }
 
-/* On for the first quarter (1/4 of 8.4s = 2.1s) of this arrow's own delayed
-   cycle, off for the rest — steps(1, end) makes both the on→off cut at 25%
-   and the eventual wraparound back to on completely instant. */
 @keyframes landingFlowArrowOn {
   0% {
     opacity: 0.7;
@@ -1253,13 +1459,7 @@ button.small {
 
 /* nth-child counts ALL of .landingFlow's children, and .landingFlowConnectors
    (the arrows wrapper) is the actual first child, ahead of the 4
-   .landingFlowStep divs — so the 4 steps are children 2-5, not 1-4. (This
-   off-by-one existed in the previous landingFlowPulse version too — every
-   icon's pulse delay was silently shifted by one step, e.g. icon 1 actually
-   ran on icon 2's intended delay. It never showed up before because that
-   animation was just a decorative independent pulse with no required left-
-   to-right order to violate; it matters now that the sequence is strict, so
-   it's fixed here.) */
+   .landingFlowStep divs — so the 4 steps are children 2-5, not 1-4. */
 .landingFlowStep:nth-child(2) .landingFlowIcon {
   animation-delay: 0s;
 }
@@ -1289,14 +1489,11 @@ button.small {
   line-height: 1.5;
 }
 
-/* On for the first quarter of this icon's own delayed cycle, off (plain
-   neutral style) for the rest — same steps(1, end) instant-cut approach as
-   the arrows, on the same shared 8.4s timeline. */
 @keyframes landingFlowIconOn {
   0% {
     border-color: var(--accent-blue);
     color: var(--accent-blue);
-    box-shadow: 0 0 0 6px rgba(43, 74, 125, 0.12);
+    box-shadow: 0 0 0 6px rgba(122, 106, 74, 0.14);
   }
   25% {
     border-color: var(--border);
@@ -1305,12 +1502,6 @@ button.small {
   }
 }
 
-/* Respect reduced-motion preference — the flow diagram is decorative, not
-   informational (the same 4 steps are named in plain text right under each
-   icon), so freezing it costs nothing functionally. Disabling the animation
-   reverts icons to their plain neutral style and arrows to their base
-   opacity: 0 (invisible) — a clean, fully static diagram, not a frozen
-   mid-animation snapshot. */
 @media (prefers-reduced-motion: reduce) {
   .landingFlowIcon,
   .landingFlowArrow {
@@ -1322,45 +1513,61 @@ button.small {
 .landingBenefits {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 24px;
 }
 
 /* 2026-09-28 — left-border "status" coding, straight from the reference
    dashboard's .kpi.accent/.kpi.good pattern (a colored left border, not a
    filled background, keeps these readable as plain cards): speed reads as
-   the "good/fast" outcome (green), privacy as the structural/neutral fact
-   about how the tool is built (blue), ownership as the upside (brass). */
+   the "good/fast" outcome (sage), privacy as the structural/neutral fact
+   about how the tool is built (bronze), ownership as the upside (brass).
+   2026-09-29: same double-bezel frame as the other primary cards. */
 .landingBenefitCard {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--border);
-  border-radius: 4px;
-  padding: 28px 24px;
+  border: var(--bezel) solid var(--bg-deep);
+  border-left-width: var(--bezel);
+  border-radius: 22px;
+  padding: 30px 26px;
+  box-shadow:
+    0 0 0 1px var(--border-soft),
+    0 20px 44px -24px rgba(42, 32, 24, 0.18);
+  position: relative;
+  overflow: hidden;
 }
 
-.landingBenefitCard-speed {
-  border-left-color: var(--accent);
+.landingBenefitCard::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--border);
 }
 
-.landingBenefitCard-privacy {
-  border-left-color: var(--accent-blue);
+.landingBenefitCard-speed::before {
+  background: var(--accent);
 }
 
-.landingBenefitCard-ownership {
-  border-left-color: var(--warning-border);
+.landingBenefitCard-privacy::before {
+  background: var(--accent-blue);
+}
+
+.landingBenefitCard-ownership::before {
+  background: var(--warning-border);
 }
 
 .landingBenefitIcon {
   width: 40px;
   height: 40px;
   color: var(--accent);
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .landingBenefitCard h3 {
   font-family: var(--font-serif);
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   margin: 0 0 8px;
 }
 
@@ -1368,32 +1575,82 @@ button.small {
   color: var(--text-muted);
   margin: 0;
   line-height: 1.6;
-  font-size: 0.92rem;
+  font-size: 0.94rem;
 }
 
 .landingFinalCta {
   text-align: center;
-  padding: 56px 32px;
-  border-radius: 4px;
+  padding: 72px 40px;
+  border-radius: 30px;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: var(--bezel) solid var(--bg-deep);
+  box-shadow:
+    0 0 0 1px var(--border-soft),
+    0 28px 60px -28px rgba(42, 32, 24, 0.22);
 }
 
 .landingFinalCta h2 {
-  margin: 0 0 12px;
+  margin: 0 0 14px;
+  font-size: 1.9rem;
 }
 
 .landingFinalCta p {
   color: var(--text-muted);
   max-width: 480px;
-  margin: 0 auto 24px;
+  margin: 0 auto 28px;
 }
 
 .landingFooterNote {
   text-align: center;
   color: var(--text-muted);
   font-size: 0.85rem;
-  margin-top: 32px;
+  margin-top: 40px;
+}
+
+/* ============================================================
+   Landing "Editorial Split" — the hero and the "why this" section break
+   out of the centered layout into an asymmetric two-column split on wide
+   viewports, per the Layout Archetype the skill asks each design to pick
+   one of. Collapses to the original single/centered layout at the same
+   780px breakpoint the rest of the page already uses. */
+.landingHeroSplit {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 56px;
+  align-items: center;
+  text-align: left;
+  padding: 0;
+}
+
+.landingHeroSplit .landingEyebrow,
+.landingHeroSplit .landingHero h1,
+.landingHeroSplit .landingHeroSub {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+}
+
+.landingHeroSplit .landingCtaRow {
+  justify-content: flex-start;
+}
+
+.landingHeroArt {
+  position: relative;
+  border-radius: 26px;
+  overflow: hidden;
+  border: var(--bezel) solid var(--bg-deep);
+  box-shadow:
+    0 0 0 1px var(--border-soft),
+    0 30px 60px -26px rgba(42, 32, 24, 0.24);
+  aspect-ratio: 4 / 5;
+  background: var(--surface);
+}
+
+.landingHeroArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 @media (max-width: 780px) {
@@ -1410,5 +1667,24 @@ button.small {
   }
   .landingLogoRow {
     gap: 24px;
+  }
+  .landingHeroSplit {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+  .landingHeroSplit .landingCtaRow {
+    justify-content: center;
+  }
+  .landingHeroArt {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
